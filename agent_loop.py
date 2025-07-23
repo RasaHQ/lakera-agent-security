@@ -11,6 +11,8 @@ load_dotenv()
 sys.path.append(os.path.join(os.path.dirname(__file__), 'mock_apis'))
 from cars import MockCarSearchAPI
 from financing import MockFinancingAPI
+from customer import MockCustomerAPI
+from loan_qualification import MockLoanQualificationAPI
 from tavily import TavilyClient
 
 def search_cars(car_type: str, min_price: int, max_price: int, new_or_used: str):
@@ -57,6 +59,28 @@ def research_car_recommendations(query: str, max_results: int = 3):
         
     except Exception as e:
         return json.dumps({"error": f"Web search failed: {str(e)}"})
+
+def check_loan_qualification(vehicle_price: float, down_payment: float = None):
+    """Check loan qualification for a vehicle purchase"""
+    try:
+        # Get customer profile (simulates logged-in user)
+        customer_api = MockCustomerAPI()
+        customer_data = customer_api.get_customer_profile()
+        customer_profile = json.loads(customer_data)
+        
+        if "error" in customer_profile:
+            return customer_data
+        
+        # Check loan qualification
+        qualification_api = MockLoanQualificationAPI()
+        result = qualification_api.check_loan_qualification(
+            vehicle_price, customer_profile, down_payment
+        )
+        
+        return result
+        
+    except Exception as e:
+        return json.dumps({"error": f"Loan qualification check failed: {str(e)}"})
 
 # Available tools
 tools = [{
@@ -138,6 +162,27 @@ tools = [{
             "additionalProperties": False
         }
     }
+}, {
+    "type": "function",
+    "function": {
+        "name": "check_loan_qualification",
+        "description": "Check if customer qualifies for a car loan based on vehicle price. Use when user asks about loan approval or mentions a specific car price they want to finance.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "vehicle_price": {
+                    "type": "number",
+                    "description": "The price of the vehicle in dollars"
+                },
+                "down_payment": {
+                    "type": "number",
+                    "description": "Optional down payment amount in dollars"
+                }
+            },
+            "required": ["vehicle_price"],
+            "additionalProperties": False
+        }
+    }
 }]
 
 def handle_tool_call(tool_call):
@@ -167,6 +212,17 @@ def handle_tool_call(tool_call):
         result = research_car_recommendations(
             args["query"],
             args.get("max_results", 3)
+        )
+        return {
+            "role": "tool",
+            "tool_call_id": tool_call.id,
+            "content": result
+        }
+    elif tool_call.function.name == "check_loan_qualification":
+        args = json.loads(tool_call.function.arguments)
+        result = check_loan_qualification(
+            args["vehicle_price"],
+            args.get("down_payment")
         )
         return {
             "role": "tool",
@@ -241,6 +297,6 @@ Always research first, then use that information to provide better recommendatio
 
 if __name__ == "__main__":
     client = OpenAI()
-    print("Car Research, Search & Financing Agent - Type 'quit' to exit")
-    print("=" * 60)
+    print("Car Research, Search, Financing & Loan Qualification Agent - Type 'quit' to exit")
+    print("=" * 70)
     loop(client)

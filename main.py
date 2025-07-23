@@ -9,7 +9,7 @@ from agent_loop import loop
 
 def main():
     client = OpenAI()
-    print("Car Research, Search & Financing Agent - Type 'quit' to exit")
+    print("Car Research, Search, Financing & Loan Qualification Agent - Type 'quit' to exit")
     print("=" * 40)
     loop(client)
 
