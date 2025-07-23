@@ -8,4 +8,7 @@ dependencies = [
     "openai>=1.97.1",
     "requests>=2.32.4",
     "tavily-python>=0.3.0",
+    "python-dotenv>=1.0.0",
+    "python-socketio>=5.8.0",
+    "aiohttp>=3.8.0",
 ]
