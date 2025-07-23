@@ -1,0 +1,33 @@
+version: "3.1"
+
+actions:
+  - action_research_cars
+
+slots:
+  research_query:
+    type: text
+    mappings:
+      - type: from_llm
+  max_results:
+    type: float
+    mappings:
+      - type: from_llm
+    initial_value: 3
+  research_results:
+    type: any
+    mappings:
+      - type: controlled
+  research_answer:
+    type: text
+    mappings:
+      - type: controlled
+
+responses:
+  utter_ask_research_query:
+    - text: "What would you like me to research about cars? (e.g., 'best compact SUV 2024', 'Honda CR-V vs Toyota RAV4')"
+  utter_research_results:
+    - text: "Based on my research: {research_answer}"
+  utter_research_error:
+    - text: "I'm sorry, I couldn't complete the web research. Please try again later."
+  utter_research_no_results:
+    - text: "I couldn't find any relevant information for your query. Could you try rephrasing your question?"

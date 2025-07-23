@@ -1,0 +1,47 @@
+version: "3.1"
+
+actions:
+  - action_calculate_financing
+
+slots:
+  purchase_amount:
+    type: float
+    mappings:
+      - type: from_llm
+  loan_term_months:
+    type: categorical
+    mappings:
+      - type: from_llm
+    values:
+      - 36
+      - 48
+      - 60
+      - 72
+  down_payment:
+    type: float
+    mappings:
+      - type: from_llm
+  monthly_payment:
+    type: float
+    mappings:
+      - type: controlled
+  total_interest:
+    type: float
+    mappings:
+      - type: controlled
+  principal_financed:
+    type: float
+    mappings:
+      - type: controlled
+
+responses:
+  utter_ask_purchase_amount:
+    - text: "What's the price of the car you're interested in financing?"
+  utter_ask_loan_term_months:
+    - text: "What loan term would you prefer? (36, 48, 60, or 72 months)"
+  utter_ask_down_payment:
+    - text: "How much would you like to put down as a down payment? (or say 'none' for no down payment)"
+  utter_financing_results:
+    - text: "For a ${purchase_amount:,.0f} car with a {loan_term_months}-month loan:\n- Monthly payment: ${monthly_payment:,.2f}\n- Total interest: ${total_interest:,.2f}\n- Amount financed: ${principal_financed:,.2f}"
+  utter_financing_error:
+    - text: "I'm sorry, I couldn't calculate the financing details. Please check your inputs and try again."

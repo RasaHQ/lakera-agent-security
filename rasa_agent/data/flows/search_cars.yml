@@ -1,0 +1,26 @@
+flows:
+  search_cars:
+    description: helps users find a car based on their preferences.
+    persisted_slots:
+      - car_type
+      - new_or_used
+      - price_range_min
+      - price_range_max
+    steps:
+      - collect: car_type
+        description: The type of car the user is looking for (e.g., SUV, Sedan, EV). Take one of the allowed values of the slot that's closest to what the user asked for.
+      - collect: new_or_used
+        description: Whether the user wants a new or used car.
+      - collect: price_range_min
+        description: The minimum price for the car. Set the value to a valid float
+      - collect: price_range_max
+        description: The maximum price for the car. Set the value to a valid float
+      - action: action_search_cars
+        next:
+          - if: not slots.chosen_car_model
+            then:
+              - action: utter_no_matches_found
+                next: END
+          - else:
+              - action: utter_matching_cars
+                next: END

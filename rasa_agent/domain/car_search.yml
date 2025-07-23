@@ -1,0 +1,70 @@
+version: "3.1"
+
+actions:
+  - action_search_cars
+
+slots:
+  car_type:
+    type: categorical
+    mappings:
+      - type: from_llm
+    values:
+      - "compact SUV"
+      - "sedan"
+      - "hatchback"
+      - "EV"
+      - "truck"
+      - "SUV"
+  new_or_used:
+    type: categorical
+    mappings:
+      - type: from_llm
+    values:
+      - "new"
+      - "used"
+  price_range_min:
+    type: float
+    mappings:
+      - type: from_llm
+    initial_value: 0.0
+  price_range_max:
+    type: float
+    mappings:
+      - type: from_llm
+  chosen_car_model:
+    type: text
+    mappings:
+      - type: controlled
+  chosen_car_price:
+    type: float
+    mappings:
+      - type: controlled
+  dealer_location:
+    type: text
+    mappings:
+      - type: controlled
+  car_features:
+    type: text
+    mappings:
+      - type: controlled
+  cars_under_consideration:
+    type: any
+    mappings:
+      - type: controlled
+    initial_value: []
+
+responses:
+  utter_ask_car_type:
+    - text: "What type of car are you looking for? (e.g., compact SUV, sedan, EV, truck)"
+  utter_ask_new_or_used:
+    - text: "Are you looking for a new or used car?"
+  utter_ask_price_range_min:
+    - text: "What's the minimum price you're considering?"
+  utter_ask_price_range_max:
+    - text: "What's your maximum budget?"
+  utter_matching_cars:
+    - text: "Great! I found a {chosen_car_model} for ${chosen_car_price:,.0f} at {dealer_location}. {car_features}"
+  utter_no_matches_found:
+    - text: "I couldn't find any {new_or_used} {car_type} vehicles in your ${price_range_min:,.0f}-${price_range_max:,.0f} price range."
+  utter_car_search_error:
+    - text: "I'm sorry, I encountered an error while searching for cars. Please try again."
