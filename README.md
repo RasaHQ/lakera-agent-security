@@ -1,6 +1,11 @@
-# Vanilla Agent
+# Car Buying Assistant - LLM vs Rasa Comparison
 
-A comprehensive OpenAI function calling agent that helps users with car buying decisions through search, financing, and web research capabilities. Features both CLI and web chat interfaces.
+A comparison project between two different approaches to building conversational AI for car buying assistance:
+
+1. **Vanilla LLM Agent** - OpenAI function calling with direct tool integration
+2. **Rasa Agent** - Traditional rule-based conversational AI framework
+
+Both implementations provide identical functionality using shared mock APIs.
 
 ## Features
 
@@ -18,14 +23,42 @@ A comprehensive OpenAI function calling agent that helps users with car buying d
 - **Flakiness Testing** - Multi-turn conversation consistency analysis
 - **Behavior Transcripts** - See exact agent decision points and variations
 
+## Project Structure
+
+```
+vanilla_agent/
+├── shared_apis/           # Mock APIs used by both implementations
+│   ├── cars.py           # Car search API
+│   ├── cars.json         # Car database (~30 entries)  
+│   ├── financing.py      # Loan calculation API
+│   ├── customer.py       # Customer profile API
+│   ├── loan_qualification.py # Loan approval API
+│   └── tavily.py         # Tavily web search integration
+├── vanilla_llm_agent/    # OpenAI function calling implementation
+│   ├── main.py          # CLI entry point
+│   ├── chat.py          # Web chat server
+│   ├── agent_loop.py    # Core agent implementation
+│   ├── flakiness_test.py # Multi-turn consistency testing
+│   └── ...              # Other supporting files
+└── rasa_agent/          # Rasa implementation (coming soon)
+    └── README.md        # Planned Rasa implementation
+```
+
 ## Setup
 
-1. Install dependencies:
+### Vanilla LLM Agent
+
+1. Navigate to the vanilla implementation:
+   ```bash
+   cd vanilla_llm_agent
+   ```
+
+2. Install dependencies:
    ```bash
    uv sync
    ```
 
-2. Set up environment variables in `.env`:
+3. Set up environment variables in `.env`:
    ```bash
    OPENAI_API_KEY=your_openai_key_here
    TAVILY_API_KEY=your_tavily_key_here  # For web research
@@ -33,19 +66,24 @@ A comprehensive OpenAI function calling agent that helps users with car buying d
 
 ## Usage
 
-### CLI Interface
+### Vanilla LLM Agent
+
+#### CLI Interface
 ```bash
+cd vanilla_llm_agent
 uv run main.py
 ```
 
-### Web Chat Interface
+#### Web Chat Interface
 ```bash
+cd vanilla_llm_agent
 uv run chat.py
 ```
 Opens browser at http://localhost:5005 with Rasa chat widget.
 
-### Testing Agent Consistency
+#### Testing Agent Consistency
 ```bash
+cd vanilla_llm_agent
 python flakiness_test.py
 ```
 Runs multi-turn conversations to analyze behavioral consistency.
@@ -71,25 +109,9 @@ The agent can help with:
 - Model comparisons
 - Market insights via Tavily search
 
-## Project Structure
+## Shared APIs
 
-```
-vanilla_agent/
-├── main.py              # CLI entry point
-├── chat.py              # Web chat server
-├── agent_loop.py        # Core agent implementation
-├── flakiness_test.py    # Multi-turn consistency testing
-├── test_agent.py        # Basic functionality tests
-├── index.html           # Chat widget interface
-├── mock_apis/           # Mock API implementations
-│   ├── cars.py          # Car search API
-│   ├── cars.json        # Car database (~30 entries)
-│   ├── financing.py     # Loan calculation API
-│   └── tavily.py        # Tavily web search integration
-├── car_search.py        # Single-shot example
-├── hello.py             # Weather API example
-└── socketio.py          # Rasa socketio channel (reference)
-```
+Both implementations use the same mock APIs to ensure fair comparison:
 
 ## Example Conversations
 
@@ -111,14 +133,30 @@ Agent: [calculates financing] For the $28,000 Skoda Kamiq with a 60-month loan:
 - Total interest: $4,083.80
 ```
 
+## Comparison Goals
+
+This project aims to compare:
+
+### **Vanilla LLM Agent Advantages:**
+- **Natural language understanding** - Handles arbitrary user inputs
+- **Context retention** - Maintains conversation state automatically  
+- **Proactive behavior** - Can research and suggest without explicit commands
+- **Flexibility** - Easy to add new capabilities via function calling
+
+### **Rasa Agent Advantages:**
+- **Predictable behavior** - Rule-based responses are consistent
+- **Training data control** - Explicit intent/entity modeling
+- **Enterprise features** - Built-in analytics, testing, deployment tools
+- **Offline capability** - Can run without external LLM dependencies
+
+### **Key Metrics:**
+- **Consistency** - How often does the agent behave the same way?
+- **Accuracy** - Does it call the right tools with correct parameters?
+- **User Experience** - Which feels more natural to interact with?
+- **Maintainability** - Which is easier to debug and extend?
+
 ## Development Notes
 
-- **Agent Consistency**: Use `flakiness_test.py` to measure behavioral consistency across identical scenarios
-- **Tool Integration**: All APIs use the same OpenAI function calling pattern
-- **Session Management**: Web interface maintains conversation context per user
-- **Error Handling**: Graceful degradation when APIs are unavailable
-
-## API Keys Required
-
-- **OpenAI API Key**: Required for LLM functionality
-- **Tavily API Key**: Optional, needed for web research features (agent works without it)
+- **Flakiness Testing**: Use `flakiness_test.py` to measure behavioral consistency
+- **Shared APIs**: Both implementations use identical backend services
+- **Fair Comparison**: Same conversation scenarios tested on both agents

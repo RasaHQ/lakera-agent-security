@@ -2,8 +2,8 @@ from openai import OpenAI
 import sys
 import os
 
-# Add the mock_apis directory to the path so we can import the APIs
-sys.path.append(os.path.join(os.path.dirname(__file__), 'mock_apis'))
+# Add the ../shared_apis directory to the path so we can import the APIs
+sys.path.append(os.path.join(os.path.dirname(__file__), '../shared_apis'))
 
 from agent_loop import loop
 

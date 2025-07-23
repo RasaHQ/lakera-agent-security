@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Add the mock_apis directory to the path so we can import the APIs
-sys.path.append(os.path.join(os.path.dirname(__file__), 'mock_apis'))
+# Add the shared_apis directory to the path so we can import the APIs
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'shared_apis'))
 from cars import MockCarSearchAPI
 from financing import MockFinancingAPI
 from customer import MockCustomerAPI
@@ -17,7 +17,7 @@ from tavily import TavilyClient
 
 def search_cars(car_type: str, min_price: int, max_price: int, new_or_used: str):
     """Search for cars using the mock car search API"""
-    car_api = MockCarSearchAPI(os.path.join(os.path.dirname(__file__), 'mock_apis', 'cars.json'))
+    car_api = MockCarSearchAPI(os.path.join(os.path.dirname(__file__), '..', 'shared_apis', 'cars.json'))
     result = car_api.search_cars(car_type, (min_price, max_price), new_or_used)
     return result
 
@@ -185,67 +185,54 @@ tools = [{
     }
 }]
 
+# Map tool names to their corresponding functions
+TOOL_FUNCTIONS = {
+    "search_cars": lambda args: search_cars(
+        args["car_type"], args["min_price"], args["max_price"], args["new_or_used"]
+    ),
+    "calculate_financing": lambda args: calculate_financing(
+        args["purchase_amount"], args["loan_term_months"], args.get("down_payment")
+    ),
+    "research_car_recommendations": lambda args: research_car_recommendations(
+        args["query"], args.get("max_results", 3)
+    ),
+    "check_loan_qualification": lambda args: check_loan_qualification(
+        args["vehicle_price"], args.get("down_payment")
+    )
+}
+
 def handle_tool_call(tool_call):
     """Handle a single tool call and return the result message"""
-    if tool_call.function.name == "search_cars":
+    try:
         args = json.loads(tool_call.function.arguments)
-        result = search_cars(args["car_type"], args["min_price"], args["max_price"], args["new_or_used"])
+        tool_function = TOOL_FUNCTIONS.get(tool_call.function.name)
+        
+        if tool_function:
+            result = tool_function(args)
+        else:
+            result = f"Unknown tool: {tool_call.function.name}"
+        
         return {
             "role": "tool",
             "tool_call_id": tool_call.id,
             "content": result
         }
-    elif tool_call.function.name == "calculate_financing":
-        args = json.loads(tool_call.function.arguments)
-        result = calculate_financing(
-            args["purchase_amount"], 
-            args["loan_term_months"], 
-            args.get("down_payment")
-        )
+        
+    except Exception as e:
         return {
             "role": "tool",
             "tool_call_id": tool_call.id,
-            "content": result
-        }
-    elif tool_call.function.name == "research_car_recommendations":
-        args = json.loads(tool_call.function.arguments)
-        result = research_car_recommendations(
-            args["query"],
-            args.get("max_results", 3)
-        )
-        return {
-            "role": "tool",
-            "tool_call_id": tool_call.id,
-            "content": result
-        }
-    elif tool_call.function.name == "check_loan_qualification":
-        args = json.loads(tool_call.function.arguments)
-        result = check_loan_qualification(
-            args["vehicle_price"],
-            args.get("down_payment")
-        )
-        return {
-            "role": "tool",
-            "tool_call_id": tool_call.id,
-            "content": result
-        }
-    else:
-        return {
-            "role": "tool", 
-            "tool_call_id": tool_call.id,
-            "content": f"Unknown tool: {tool_call.function.name}"
+            "content": f"Tool execution error: {str(e)}"
         }
 
 def user_input():
     """Get input from the user"""
     return input("You: ")
 
-def loop(llm):
-    """Main agent loop"""
-    messages = [
-        {
-            "role": "system",
-            "content": """You are a proactive car buying assistant with access to car search, financing, and web research tools.
+# System prompt for the agent - used by both main loop and testing
+SYSTEM_PROMPT = {
+    "role": "system",
+    "content": """You are a proactive car buying assistant with access to car search, financing, and web research tools.
 
 When users mention car needs or preferences, IMMEDIATELY use the research_car_recommendations tool to find current reviews and recommendations before asking follow-up questions. Be action-oriented and helpful.
 
@@ -255,8 +242,11 @@ For example:
 - User asks about specific models → Look up current reviews and comparisons
 
 Always research first, then use that information to provide better recommendations and ask more informed follow-up questions."""
-        }
-    ]
+}
+
+def loop(llm):
+    """Main agent loop"""
+    messages = [SYSTEM_PROMPT]
     
     # Get initial user input
     user_msg = user_input()

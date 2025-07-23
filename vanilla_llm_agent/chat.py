@@ -18,35 +18,20 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Add the mock_apis directory to the path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'mock_apis'))
-from agent_loop import tools, handle_tool_call
+# Add the ../shared_apis directory to the path
+sys.path.append(os.path.join(os.path.dirname(__file__), '../shared_apis'))
+from agent_loop import tools, handle_tool_call, SYSTEM_PROMPT
 from openai import OpenAI
 
 class ChatAgent:
     def __init__(self):
         self.client = OpenAI()
         self.conversations = {}  # Store conversations by session_id
-        
-        # System prompt for the agent
-        self.system_prompt = {
-            "role": "system",
-            "content": """You are a proactive car buying assistant with access to car search, financing, and web research tools.
-
-When users mention car needs or preferences, IMMEDIATELY use the research_car_recommendations tool to find current reviews and recommendations before asking follow-up questions. Be action-oriented and helpful.
-
-For example:
-- User says "I need an SUV" → Search "best SUV 2024 reviews" right away
-- User mentions "good gas mileage" → Research fuel efficient cars in that category
-- User asks about specific models → Look up current reviews and comparisons
-
-Always research first, then use that information to provide better recommendations and ask more informed follow-up questions."""
-        }
 
     def get_conversation(self, session_id: str):
         """Get or create conversation for a session"""
         if session_id not in self.conversations:
-            self.conversations[session_id] = [self.system_prompt]
+            self.conversations[session_id] = [SYSTEM_PROMPT]
         return self.conversations[session_id]
 
     async def process_message(self, session_id: str, message: str):
