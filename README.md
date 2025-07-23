@@ -2,8 +2,8 @@
 
 A comparison project between two different approaches to building conversational AI for car buying assistance:
 
-1. **Vanilla LLM Agent** - OpenAI function calling with direct tool integration
-2. **Rasa Agent** - Traditional rule-based conversational AI framework
+1. **Vanilla LLM Agent** - Direct OpenAI function calling with minimal framework
+2. **Rasa Agent** - Modern Rasa with CALM (Conversational AI with Language Models) - LLM-native approach with robust business logic
 
 Both implementations provide identical functionality using shared mock APIs.
 
@@ -137,23 +137,26 @@ Agent: [calculates financing] For the $28,000 Skoda Kamiq with a 60-month loan:
 
 This project aims to compare:
 
-### **Vanilla LLM Agent Advantages:**
-- **Natural language understanding** - Handles arbitrary user inputs
-- **Context retention** - Maintains conversation state automatically  
-- **Proactive behavior** - Can research and suggest without explicit commands
-- **Flexibility** - Easy to add new capabilities via function calling
+### **Vanilla LLM Agent Characteristics:**
+- **Minimal framework** - Direct OpenAI API integration
+- **Simple implementation** - Function calling with basic tool mapping
+- **Full LLM dependency** - All decisions made by the language model
+- **Flexible but unpredictable** - Easy to extend but harder to control
 
-### **Rasa Agent Advantages:**
-- **Predictable behavior** - Rule-based responses are consistent
-- **Training data control** - Explicit intent/entity modeling
-- **Enterprise features** - Built-in analytics, testing, deployment tools
-- **Offline capability** - Can run without external LLM dependencies
+### **Rasa CALM Agent Characteristics:**
+- **LLM-native framework** - Built for modern conversational AI
+- **Business logic integration** - Combines LLM flexibility with structured workflows
+- **Enterprise features** - Analytics, testing, deployment, and monitoring tools
+- **Controlled LLM usage** - Structured approach to LLM decision-making
+- **Production-ready** - Built for scalable, reliable deployments
 
-### **Key Metrics:**
-- **Consistency** - How often does the agent behave the same way?
+### **Key Comparison Areas:**
+- **Consistency** - How predictable is the agent behavior?
 - **Accuracy** - Does it call the right tools with correct parameters?
-- **User Experience** - Which feels more natural to interact with?
-- **Maintainability** - Which is easier to debug and extend?
+- **User Experience** - Which approach feels more natural and reliable?
+- **Maintainability** - Which is easier to debug, test, and extend?
+- **Production Readiness** - Which handles edge cases and errors better?
+- **Development Speed** - Which is faster to build and iterate on?
 
 ## Development Notes
 
