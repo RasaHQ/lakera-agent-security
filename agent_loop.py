@@ -2,6 +2,10 @@ from openai import OpenAI
 import json
 import sys
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Add the mock_apis directory to the path so we can import the APIs
 sys.path.append(os.path.join(os.path.dirname(__file__), 'mock_apis'))
