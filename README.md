@@ -1,47 +1,33 @@
-# Car Buying Assistant - LLM vs Rasa Comparison
+# Car Buying Assistant - Security of CALM versus a simple LLM agent
 
-A comparison project between two different approaches to building conversational AI for car buying assistance:
-
-1. **Vanilla LLM Agent** - Direct OpenAI function calling with minimal framework
-2. **Rasa Agent** - Modern Rasa with CALM (Conversational AI with Language Models) - LLM-native approach with robust business logic
+1. **Vanilla LLM Agent** - OpenAI function calling in a `while` loop.
+2. **Rasa Agent** - Rasa CALM implementation - augmenting LLMs with robust business logic.
 
 Both implementations provide identical functionality using shared mock APIs.
 
 ## Features
 
-### 🚗 Core Functionality
+This is Ace, an assistant for ACME bank. It can help users finance a car purchase.
+
+- **Web Research** - Recommend a model to buy by searching the web
 - **Car Inventory Search** - Find available cars by type, price, and condition
 - **Financing Calculator** - Calculate loan payments for different terms and down payments
-- **Web Research** - Real-time car reviews and recommendations via Tavily API
-- **Proactive Agent** - Automatically researches when users mention car preferences
+- **Loan Qualification** - let the user know if they are qualified for the loan.
 
-### 🖥️ Dual Interface
-- **CLI Mode** - Terminal-based conversation (`uv run main.py`)
-- **Web Mode** - Browser chat widget compatible with Rasa UI (`uv run chat.py`)
-
-### 🧪 Testing & Analysis
-- **Flakiness Testing** - Multi-turn conversation consistency analysis
-- **Behavior Transcripts** - See exact agent decision points and variations
 
 ## Project Structure
 
 ```
-vanilla_agent/
+./
 ├── shared_apis/           # Mock APIs used by both implementations
 │   ├── cars.py           # Car search API
-│   ├── cars.json         # Car database (~30 entries)  
+│   ├── cars.json         # Car database (~30 entries)
 │   ├── financing.py      # Loan calculation API
 │   ├── customer.py       # Customer profile API
 │   ├── loan_qualification.py # Loan approval API
 │   └── tavily.py         # Tavily web search integration
 ├── vanilla_llm_agent/    # OpenAI function calling implementation
-│   ├── main.py          # CLI entry point
-│   ├── chat.py          # Web chat server
-│   ├── agent_loop.py    # Core agent implementation
-│   ├── flakiness_test.py # Multi-turn consistency testing
-│   └── ...              # Other supporting files
-└── rasa_agent/          # Rasa implementation (coming soon)
-    └── README.md        # Planned Rasa implementation
+└── rasa_agent/          # Rasa implementation
 ```
 
 ## Setup
@@ -68,18 +54,19 @@ vanilla_agent/
 
 ### Vanilla LLM Agent
 
-#### CLI Interface
-```bash
-cd vanilla_llm_agent
-uv run main.py
-```
-
-#### Web Chat Interface
+#### Chat with the agent
 ```bash
 cd vanilla_llm_agent
 uv run chat.py
 ```
 Opens browser at http://localhost:5005 with Rasa chat widget.
+
+Or if you prefer to just use the CLI:
+
+```bash
+cd vanilla_llm_agent
+uv run main.py
+```
 
 #### Testing Agent Consistency
 ```bash
@@ -88,26 +75,6 @@ python flakiness_test.py
 ```
 Runs multi-turn conversations to analyze behavioral consistency.
 
-## Agent Capabilities
-
-The agent can help with:
-
-### 🔍 Car Search
-- Type: sedan, compact SUV, EV, truck, hatchback
-- Price range filtering
-- New vs used vehicles
-- Inventory of ~30 realistic car entries
-
-### 💰 Financing
-- Monthly payment calculations
-- Loan terms: 36, 48, 60, 72 months
-- Down payment scenarios
-- Interest rate modeling
-
-### 🌐 Web Research  
-- Current car reviews and recommendations
-- Model comparisons
-- Market insights via Tavily search
 
 ## Shared APIs
 
@@ -119,10 +86,10 @@ Both implementations use the same mock APIs to ensure fair comparison:
 ```
 You: I need a reliable family SUV with good gas mileage
 Agent: [researches best family SUVs automatically]
-Based on current research, I found excellent options like the Honda CR-V for reliability 
+Based on current research, I found excellent options like the Honda CR-V for reliability
 and fuel economy, Toyota RAV4 for standard AWD...
 
-You: My budget is $25,000-$35,000 for a new SUV  
+You: My budget is $25,000-$35,000 for a new SUV
 Agent: [searches inventory] I found several SUVs in your range:
 - 2025 Skoda Kamiq: $28,000 (panoramic sunroof, heated seats)
 - 2024 Peugeot 2008: $29,500 (i-Cockpit, blind spot monitoring)
@@ -132,34 +99,3 @@ Agent: [calculates financing] For the $28,000 Skoda Kamiq with a 60-month loan:
 - Monthly payment: $534.73
 - Total interest: $4,083.80
 ```
-
-## Comparison Goals
-
-This project aims to compare:
-
-### **Vanilla LLM Agent Characteristics:**
-- **Minimal framework** - Direct OpenAI API integration
-- **Simple implementation** - Function calling with basic tool mapping
-- **Full LLM dependency** - All decisions made by the language model
-- **Flexible but unpredictable** - Easy to extend but harder to control
-
-### **Rasa CALM Agent Characteristics:**
-- **LLM-native framework** - Built for modern conversational AI
-- **Business logic integration** - Combines LLM flexibility with structured workflows
-- **Enterprise features** - Analytics, testing, deployment, and monitoring tools
-- **Controlled LLM usage** - Structured approach to LLM decision-making
-- **Production-ready** - Built for scalable, reliable deployments
-
-### **Key Comparison Areas:**
-- **Consistency** - How predictable is the agent behavior?
-- **Accuracy** - Does it call the right tools with correct parameters?
-- **User Experience** - Which approach feels more natural and reliable?
-- **Maintainability** - Which is easier to debug, test, and extend?
-- **Production Readiness** - Which handles edge cases and errors better?
-- **Development Speed** - Which is faster to build and iterate on?
-
-## Development Notes
-
-- **Flakiness Testing**: Use `flakiness_test.py` to measure behavioral consistency
-- **Shared APIs**: Both implementations use identical backend services
-- **Fair Comparison**: Same conversation scenarios tested on both agents
