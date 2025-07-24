@@ -1,0 +1,52 @@
+version: "3.1"
+
+actions:
+  - action_search_cars
+
+slots:
+  car_type:
+    type: categorical
+    mappings:
+      - type: from_llm
+    values:
+      - "compact SUV"
+      - "sedan"
+      - "hatchback"
+      - "EV"
+  new_or_used:
+    type: text
+    mappings:
+      - type: from_llm
+  price_range_min:
+    type: float
+    mappings:
+      - type: from_llm
+    initial_value: 0.0
+  price_range_max:
+    type: float
+    mappings:
+      - type: from_llm
+  cars_under_consideration:
+    type: any
+    mappings:
+      - type: controlled
+    initial_value: []
+
+responses:
+  # Responses for 'collect' steps
+  utter_ask_car_type:
+    - text: "What type of car are you looking for? Sedan, compact SUV, or EV?"
+  utter_ask_new_or_used:
+    - text: "Are you looking for a new or used car?"
+  utter_ask_price_range_min:
+    - text: "What's the minimum price you're looking at?"
+  utter_ask_price_range_max:
+    - text: "What's your budget?"
+
+  # Responses for `action_search_cars` outcomes
+  utter_matching_cars:
+    - text: "Okay, I found a {chosen_car_model} at €{car_price} at {dealer_location}. Does that sound suitable?"
+  utter_no_matches_found:
+    - text: "unfortunately I don't see a {new_or_used} {car_type} under {price_range_max}."
+  utter_car_search_error:
+    - text: "I'm sorry, I couldn't find a car matching your criteria: {car_search_error}"

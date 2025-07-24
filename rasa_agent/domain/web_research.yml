@@ -12,7 +12,7 @@ slots:
     type: float
     mappings:
       - type: from_llm
-    initial_value: 3
+    initial_value: 3.0
   research_results:
     type: any
     mappings:
@@ -24,10 +24,10 @@ slots:
 
 responses:
   utter_ask_research_query:
-    - text: "What would you like me to research about cars? (e.g., 'best compact SUV 2024', 'Honda CR-V vs Toyota RAV4')"
+    - text: "What kind of car information would you like me to research for you?"
+  utter_ask_max_results:
+    - text: "How many search results would you like? (1-10, default is 3)"
   utter_research_results:
-    - text: "Based on my research: {research_answer}"
-  utter_research_error:
-    - text: "I'm sorry, I couldn't complete the web research. Please try again later."
-  utter_research_no_results:
-    - text: "I couldn't find any relevant information for your query. Could you try rephrasing your question?"
+    - text: "Here's what I found from my web research: {research_answer}"
+  utter_research_failed:
+    - text: "I'm sorry, I wasn't able to find any research results for your query. Please try rephrasing your question."

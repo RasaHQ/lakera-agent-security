@@ -1,0 +1,20 @@
+flows:
+  research_car_recommendations:
+    description: Research car recommendations and reviews using web search to help users make informed decisions.
+    persisted_slots:
+      - research_query
+      - max_results
+    steps:
+      - collect: research_query
+        description: The search query for car research (e.g., 'best compact SUV 2024', 'Honda CR-V vs Toyota RAV4 review'). Extract or infer from user's car preferences and needs.
+      - collect: max_results
+        description: Maximum number of search results to return (1-10). Default to 3 if not specified.
+      - action: action_research_cars
+        next:
+          - if: not slots.research_results
+            then:
+              - action: utter_research_failed
+                next: END
+          - else:
+              - action: utter_research_results
+                next: END

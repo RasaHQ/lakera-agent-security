@@ -5,7 +5,30 @@ slots:
     type: any
     mappings:
       - type: controlled
+  # Common price and car information slots used across flows
+  car_price:
+    type: float
+    mappings:
+      - type: from_llm
+  chosen_car_model:
+    type: text
+    mappings:
+      - type: controlled
+  dealer_location:
+    type: text
+    mappings:
+      - type: controlled
+  car_features:
+    type: text
+    mappings:
+      - type: controlled
+  # Common down payment slot (used in both financing and loan qualification)
+  down_payment_amount:
+    type: float
+    mappings:
+      - type: from_llm
 
-session_config:
-  session_expiration_time: 60
-  carry_over_slots_to_new_session: true
+responses:
+  # Shared responses used across multiple flows
+  utter_ask_down_payment_amount:
+    - text: "How much would you like to put down as a down payment?"

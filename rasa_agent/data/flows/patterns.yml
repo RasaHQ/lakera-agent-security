@@ -1,0 +1,6 @@
+flows:
+  pattern_continue_interrupted:
+    description: Handle resuming a previously interrupted flow without any action.
+    steps:
+      - noop: true
+        next: END

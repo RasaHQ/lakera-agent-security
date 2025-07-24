@@ -1,14 +1,14 @@
 version: "3.1"
 
 actions:
-  - action_calculate_financing
+  - action_provide_financing_options
 
 slots:
-  purchase_amount:
-    type: float
+  savings_balance:
+    type: any
     mappings:
-      - type: from_llm
-  loan_term_months:
+      - type: controlled
+  loan_term:
     type: categorical
     mappings:
       - type: from_llm
@@ -16,32 +16,23 @@ slots:
       - 36
       - 48
       - 60
-      - 72
-  down_payment:
-    type: float
-    mappings:
-      - type: from_llm
-  monthly_payment:
+  loan_total_interest:
     type: float
     mappings:
       - type: controlled
-  total_interest:
+  loan_monthly_payment:
     type: float
     mappings:
       - type: controlled
-  principal_financed:
+  loan_principal_financed:
     type: float
     mappings:
       - type: controlled
 
 responses:
-  utter_ask_purchase_amount:
-    - text: "What's the price of the car you're interested in financing?"
-  utter_ask_loan_term_months:
-    - text: "What loan term would you prefer? (36, 48, 60, or 72 months)"
-  utter_ask_down_payment:
-    - text: "How much would you like to put down as a down payment? (or say 'none' for no down payment)"
-  utter_financing_results:
-    - text: "For a ${purchase_amount:,.0f} car with a {loan_term_months}-month loan:\n- Monthly payment: ${monthly_payment:,.2f}\n- Total interest: ${total_interest:,.2f}\n- Amount financed: ${principal_financed:,.2f}"
-  utter_financing_error:
-    - text: "I'm sorry, I couldn't calculate the financing details. Please check your inputs and try again."
+  utter_ask_loan_term:
+    - text: "would you like to repay in 36, 48, or 60 months?"
+  utter_financing_initial:
+    - text: "Alright, for a €{car_price} car on a {loan_term}-month term, your estimated **monthly payment** would be around **€{loan_monthly_payment}**. You'd pay about **€{loan_total_interest} in total interest**."
+  utter_financing_with_dp:
+    - text: "Great! With a **€{down_payment_amount} down payment** on the €{car_price} car ({loan_term}-month loan), your estimated **monthly payment drops to €{loan_monthly_payment}**."

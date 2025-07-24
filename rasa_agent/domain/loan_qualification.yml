@@ -4,20 +4,20 @@ actions:
   - action_check_loan_qualification
 
 slots:
-  vehicle_price:
-    type: float
-    mappings:
-      - type: from_llm
-  qualification_down_payment:
-    type: float
-    mappings:
-      - type: from_llm
   loan_approved:
     type: bool
     mappings:
       - type: controlled
   credit_tier:
     type: text
+    mappings:
+      - type: controlled
+  credit_score:
+    type: float
+    mappings:
+      - type: controlled
+  current_debt_to_income:
+    type: float
     mappings:
       - type: controlled
   loan_options:
@@ -34,13 +34,11 @@ slots:
       - type: controlled
 
 responses:
-  utter_ask_vehicle_price:
-    - text: "What's the price of the vehicle you'd like to get approved for?"
-  utter_ask_qualification_down_payment:
-    - text: "How much are you planning to put down? (optional - say 'none' if you don't want a down payment)"
+  utter_ask_car_price:
+    - text: "What's the price of the vehicle you want to finance?"
   utter_loan_approved:
-    - text: "Great news! You're approved for the ${vehicle_price:,.0f} vehicle. Your credit tier is '{credit_tier}' and you have multiple loan options available."
+    - text: "Great news! You're approved for financing on the ${car_price} vehicle. Your credit tier is '{credit_tier}' with available loan options."
+    - condition: slots.suggested_down_payment
+      text: "Great news! You're approved for financing on the ${car_price} vehicle. Your credit tier is '{credit_tier}'. Consider a ${suggested_down_payment} down payment to get better terms."
   utter_loan_denied:
-    - text: "I'm sorry, but you don't qualify for the requested loan amount. {denial_reason}"
-  utter_qualification_error:
-    - text: "I'm sorry, I couldn't check your loan qualification at this time. Please try again later."
+    - text: "I'm sorry, but you don't qualify for financing on this ${car_price} vehicle. {denial_reason}"
