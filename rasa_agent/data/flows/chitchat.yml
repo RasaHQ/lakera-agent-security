@@ -1,0 +1,79 @@
+flows:
+  greeting: 
+    description: user greets the user
+    steps: 
+      - action: utter_greeting
+  
+  what_can_you_do:
+    description: answer user questions like "what can you do" and questions about your capabilities
+    run_pattern_completed: false
+    steps:
+      - action: utter_what_can_you_do
+
+  who_are_you:
+    description: respond to users asking who you are or what you are
+    run_pattern_completed: false
+    steps:
+      - action: utter_who_are_you
+
+  how_are_you:
+    description: respond to users asking how you're doing
+    run_pattern_completed: false
+    steps:
+      - action: utter_how_are_you
+
+  tell_a_joke:
+    description: tell a joke when requested
+    run_pattern_completed: false
+    steps:
+      - action: utter_joke
+
+  tell_a_story:
+    description: tell a short story or anecdote
+    run_pattern_completed: false
+    steps:
+      - action: utter_story
+
+  what_time_is_it:
+    description: respond to users asking for the time
+    run_pattern_completed: false
+    steps:
+      - action: utter_time
+
+  where_are_you_from:
+    description: respond to users asking where you're from
+    run_pattern_completed: false
+    steps:
+      - action: utter_where_are_you_from
+
+  do_you_have_a_name:
+    description: respond when asked for your name
+    run_pattern_completed: false
+    steps:
+      - action: utter_your_name
+
+  what_language_do_you_speak:
+    description: respond to questions about your language capabilities
+    run_pattern_completed: false
+    steps:
+      - action: utter_languages
+
+  are_you_alive:
+    description: respond to philosophical or existential questions about being alive
+    run_pattern_completed: false
+    steps:
+      - action: utter_are_you_alive
+
+  do_you_have_emotions:
+    description: respond to questions about whether you have feelings
+    run_pattern_completed: false
+    steps:
+      - action: utter_emotions
+
+  can_you_understand_me:
+    description: assure user about your ability to understand them
+    run_pattern_completed: false
+    steps:
+      - action: utter_understanding
+
+
