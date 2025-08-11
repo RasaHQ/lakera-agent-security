@@ -26,6 +26,11 @@ slots:
     type: float
     mappings:
       - type: from_llm
+  car_model:
+    type: text
+    mappings:
+      - type: from_llm
+    initial_value: ""
   cars_under_consideration:
     type: any
     mappings:
@@ -42,6 +47,8 @@ responses:
     - text: "What's the minimum price you're looking at?"
   utter_ask_price_range_max:
     - text: "What's your budget?"
+  utter_ask_car_model:
+    - text: "Are you looking for a specific car model?"
 
   # Responses for `action_search_cars` outcomes
   utter_matching_cars:

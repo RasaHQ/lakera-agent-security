@@ -15,6 +15,20 @@ class MockCarSearchAPI:
         """
         self.cars_data = self._load_car_data(data_file)
 
+    def _normalize_keywords(self, text):
+        """
+        Normalizes text into searchable keywords by converting to lowercase and splitting.
+        
+        Args:
+            text (str): Text to normalize
+            
+        Returns:
+            set: Set of normalized keywords
+        """
+        if not text:
+            return set()
+        return set(text.lower().split())
+
     def _load_car_data(self, data_file):
         """
         Loads car data from a JSON file.
@@ -28,7 +42,7 @@ class MockCarSearchAPI:
         with open(file_path, 'r', encoding='utf-8') as f:
             return json.load(f)
 
-    def search_cars(self, car_type: str, price_range: tuple, new_or_used: str):
+    def search_cars(self, car_type: str, price_range: tuple, new_or_used: str, car_model: str = None):
         """
         Simulates a search for cars based on provided criteria, filtering from loaded data.
 
@@ -36,23 +50,37 @@ class MockCarSearchAPI:
             car_type (str): The type of car (e.g., "compact SUV", "sedan", "EV").
             price_range (tuple): A tuple representing the min and max price (e.g., (25000, 30000)).
             new_or_used (str): Whether the car is "new" or "used".
+            car_model (str, optional): Keywords to search for in car model (e.g., "civic", "honda pilot").
 
         Returns:
             str: A JSON string containing details of the first matching car, or an error.
         """
-        print(f"DEBUG: Mock Car Search API called with: type='{car_type}', price_range={price_range}, new_or_used='{new_or_used}'")
+        print(f"DEBUG: Mock Car Search API called with: type='{car_type}', price_range={price_range}, new_or_used='{new_or_used}', car_model='{car_model}'")
 
         min_price, max_price = price_range
+
+        # Normalize car_model keywords if provided
+        model_keywords = self._normalize_keywords(car_model) if car_model else set()
 
         found_car = None
         for car in self.cars_data:
             # Normalize car type and new_or_used for robust matching
             car_type_lower = car['type'].lower()
             new_or_used_lower = car['new_or_used'].lower()
-
-            if (car_type.lower() in car_type_lower and
-                new_or_used.lower() == new_or_used_lower and
-                min_price <= car['price'] < max_price):
+            
+            # Check basic criteria first
+            type_match = True if not car_type else car_type.lower() in car_type_lower
+            basic_match = (type_match and
+                          new_or_used.lower() == new_or_used_lower and
+                          min_price <= car['price'] < max_price)
+            
+            # If model keywords provided, check for overlap
+            model_match = True
+            if model_keywords:
+                car_model_keywords = self._normalize_keywords(car['model'])
+                model_match = bool(model_keywords.intersection(car_model_keywords))
+            
+            if basic_match and model_match:
                 found_car = car
                 break # Return the first matching car for simplicity in this demo
 

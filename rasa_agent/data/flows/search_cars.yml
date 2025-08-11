@@ -6,10 +6,19 @@ flows:
       - new_or_used
       - price_range_min
       - price_range_max
+      - car_model
     steps:
-      - collect: car_type
-        description: The type of car the user is looking for (e.g., SUV, Sedan, EV). Take one of the allowed values of the slot that's closest to what the user asked for.
-      - collect: new_or_used
+      - collect: car_model
+        description: The specific car model the user is looking for (e.g., civic, pilot, camry). Leave empty if no specific model mentioned.
+        next:
+          - if: not slots.car_model
+            then:
+              - collect: car_type
+                description: The type of car the user is looking for (e.g., SUV, Sedan, EV). Take one of the allowed values of the slot that's closest to what the user asked for.
+                next: "new_or_used"
+          - else: "new_or_used"
+      - id: "new_or_used"
+        collect: new_or_used
         description: Whether the user wants a new or used car.
       - collect: price_range_min
         description: The minimum price for the car. Set the value to a valid float
