@@ -2576,11 +2576,11 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "rasa-pro", specifier = ">=3.13.4" }]
+requires-dist = [{ name = "rasa-pro", specifier = ">=3.13.5" }]
 
 [[package]]
 name = "rasa-pro"
-version = "3.13.4"
+version = "3.13.6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "absl-py" },
@@ -2699,9 +2699,9 @@ dependencies = [
     { name = "websockets" },
     { name = "wheel" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/26/80/8330ddd0818c18841a18f8498ff21a0637e5f3d69a29d921ae4cb397dac4/rasa_pro-3.13.4.tar.gz", hash = "sha256:8e9441c04b8b06adbfb2da864b09f871bc99e19a575807f6caaa829eacf28905", size = 4388067, upload-time = "2025-07-23T12:55:58.229Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/26/b3/79628b866c369a052de1e7f8a8c0f5792f0368fa698692100facb4837dff/rasa_pro-3.13.6.tar.gz", hash = "sha256:11f35e7d078387241d77a5c6e45561ba1c1afc2255b03d2903bd3b9325375312", size = 4389191, upload-time = "2025-08-08T09:40:58.621Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/29/6f/3f838d44d26a18e56d52fcb1b66665e99add6624bd73f0cd3bc6851796f7/rasa_pro-3.13.4-py3-none-any.whl", hash = "sha256:170e5d0869e166ffe1a22c154405a78ed8f2046e302b196b0cb56d3e001e7954", size = 4821034, upload-time = "2025-07-23T12:55:56.057Z" },
+    { url = "https://files.pythonhosted.org/packages/b8/80/a98d77238fcdf4dbf971e9d5382de9d6fa5bbb0dc29d4586f89502237acb/rasa_pro-3.13.6-py3-none-any.whl", hash = "sha256:5899074e9bd8217e0d082cdcfad091368d4b58cd21e9068dc3acd59f3567411c", size = 4822097, upload-time = "2025-08-08T09:40:55.708Z" },
 ]
 
 [[package]]
