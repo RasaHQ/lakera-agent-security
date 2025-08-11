@@ -15,10 +15,10 @@ from customer import MockCustomerAPI
 from loan_qualification import MockLoanQualificationAPI
 from tavily import TavilyClient
 
-def search_cars(car_type: str, min_price: int, max_price: int, new_or_used: str):
+def search_cars(car_type: str, min_price: int, max_price: int, new_or_used: str, car_model: str = None, exclude_keywords: str = None):
     """Search for cars using the mock car search API"""
     car_api = MockCarSearchAPI(os.path.join(os.path.dirname(__file__), '..', 'shared_apis', 'cars.json'))
-    result = car_api.search_cars(car_type, (min_price, max_price), new_or_used)
+    result = car_api.search_cars(car_type, (min_price, max_price), new_or_used, car_model, exclude_keywords)
     return result
 
 def calculate_financing(purchase_amount: float, loan_term_months: int, down_payment: float = None):
@@ -87,7 +87,7 @@ tools = [{
     "type": "function",
     "function": {
         "name": "search_cars",
-        "description": "Search for cars based on type, price range, and condition (new or used).",
+        "description": "Search for cars based on type, price range, condition (new or used), optionally specific car model, and optionally exclude certain keywords.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -105,8 +105,16 @@ tools = [{
                 },
                 "new_or_used": {
                     "type": "string",
-                    "enum": ["new", "used"],
-                    "description": "Whether to search for new or used cars"
+                    "enum": ["new", "used", "any"],
+                    "description": "Whether to search for new, used, or any type of cars"
+                },
+                "car_model": {
+                    "type": "string",
+                    "description": "Optional specific car model keywords to search for (e.g., 'civic', 'honda pilot', 'camry')"
+                },
+                "exclude_keywords": {
+                    "type": "string",
+                    "description": "Optional space-separated keywords to exclude from search (e.g., 'honda toyota civic')"
                 }
             },
             "required": ["car_type", "min_price", "max_price", "new_or_used"],
@@ -188,7 +196,7 @@ tools = [{
 # Map tool names to their corresponding functions
 TOOL_FUNCTIONS = {
     "search_cars": lambda args: search_cars(
-        args["car_type"], args["min_price"], args["max_price"], args["new_or_used"]
+        args["car_type"], args["min_price"], args["max_price"], args["new_or_used"], args.get("car_model"), args.get("exclude_keywords")
     ),
     "calculate_financing": lambda args: calculate_financing(
         args["purchase_amount"], args["loan_term_months"], args.get("down_payment")
