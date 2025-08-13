@@ -1,6 +1,6 @@
 flows:
   search_cars:
-    description: helps users find a car based on their preferences. Also trigger this flow if a user rejects a previously proposed car or is providing alternative search criteria.
+    description: helps users find a specific car at a dealership based on their preferences. Also start this flow if a user rejects a previously proposed car or is providing alternative search criteria. Does not provide recommendations on car models.
     persisted_slots:
       - car_type
       - new_or_used
@@ -16,15 +16,15 @@ flows:
             then:
               - collect: car_type
                 description: The type of car the user is looking for (e.g., SUV, Sedan, EV). Take one of the allowed values of the slot that's closest to what the user asked for.
+              - collect: price_range_min
+                description: The minimum price for the car. Set the value to a valid float.
+              - collect: price_range_max
+                description: The maximum price for the car. Set the value to a valid float.
                 next: "new_or_used"
           - else: "new_or_used"
       - id: "new_or_used"
         collect: new_or_used
         description: Whether the user wants a new or used car.
-      - collect: price_range_min
-        description: The minimum price for the car. Set the value to a valid float.
-      - collect: price_range_max
-        description: The maximum price for the car. Set the value to a valid float
       - collect: exclude_keywords
         description: Keywords to exclude from car search, separated by spaces. If user rejects the suggested car with phrases like 'anything else', 'show me something different', 'not that one', extract keywords from the previously shown car model or mentioned brands/models they don't want.
       - action: action_search_cars

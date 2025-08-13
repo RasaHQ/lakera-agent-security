@@ -92,9 +92,10 @@ class ActionResearchCars(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        research_query = tracker.get_slot("research_query")
+        research_query = tracker.get_slot("research_query") or "recommend a car"
+        research_query += " pricing estimate"
         max_results = tracker.get_slot("max_results") or 3
-        
+
         print(f"DEBUG (ActionResearchCars): research_query='{research_query}', max_results={max_results}")
 
         try:

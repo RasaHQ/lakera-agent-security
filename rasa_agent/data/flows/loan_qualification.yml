@@ -6,10 +6,8 @@ flows:
       - car_price
       - down_payment_amount
     steps:
-      - collect: car_price
-        description: The price of the vehicle the customer wants to finance. Set the value to a valid float.
       - collect: down_payment_amount
-        description: Optional down payment amount the customer can make. Set the value to a valid float or leave empty for no down payment.
+        description: Optional down payment amount the customer can make. Set the value to a valid float or leave empty for no down payment. Also fill if the user responds positively to the agent suggesting a down payment.
       - action: action_check_loan_qualification
         next:
           - if: not slots.loan_approved
