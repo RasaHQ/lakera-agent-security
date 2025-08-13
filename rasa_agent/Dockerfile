@@ -15,6 +15,7 @@ COPY rasa_agent/endpoints.yml /app/
 COPY rasa_agent/credentials.yml /app/
 COPY rasa_agent/actions/ /app/actions/
 COPY rasa_agent/models/model.tar.gz /app/models/
+COPY rasa_agent/prompt_templates/ /app/prompt_templates/
 COPY shared_apis/ /app/shared_apis/
 
 EXPOSE 5005
