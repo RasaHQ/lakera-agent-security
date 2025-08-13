@@ -126,7 +126,7 @@ if __name__ == "__main__":
         loan_term_months=60,
         down_payment=1000.0,
     )
-    print("\n--- Test 2: Financing (with €1000 Down Payment) ---")
+    print("\n--- Test 2: Financing (with $1000 Down Payment) ---")
     print(json.dumps(json.loads(result2), indent=2))
 
     # Test 3: Financing with a different down payment
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         loan_term_months=60,
         down_payment=7000.0,
     )
-    print("\n--- Test 3: Financing (with €7000 Down Payment) ---")
+    print("\n--- Test 3: Financing (with $7000 Down Payment) ---")
     print(json.dumps(json.loads(result3), indent=2))
 
     # Test 4: Down payment exceeds purchase amount

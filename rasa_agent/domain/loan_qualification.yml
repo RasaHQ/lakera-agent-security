@@ -34,8 +34,6 @@ slots:
       - type: controlled
 
 responses:
-  utter_ask_car_price:
-    - text: "What's the price of the vehicle you want to finance?"
   utter_loan_approved:
     - text: "Great news! You're approved for financing on the ${car_price} vehicle. Your credit tier is '{credit_tier}' with available loan options."
     - condition: slots.suggested_down_payment

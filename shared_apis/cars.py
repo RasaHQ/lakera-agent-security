@@ -73,8 +73,8 @@ class MockCarSearchAPI:
             new_or_used_lower = car['new_or_used'].lower()
             
             # Check basic criteria first
-            type_match = True if not car_type else car_type.lower() in car_type_lower
-            condition_match = True if new_or_used.lower() == "any" else new_or_used.lower() == new_or_used_lower
+            type_match = not car_type or car_type.lower() == "any" or car_type.lower() in car_type_lower
+            condition_match = new_or_used.lower() == "any" or new_or_used.lower() == new_or_used_lower
             basic_match = (type_match and
                           condition_match and
                           min_price <= car['price'] < max_price)

@@ -13,6 +13,7 @@ slots:
       - "sedan"
       - "hatchback"
       - "EV"
+      - "any"
   new_or_used:
     type: categorical
     mappings:
@@ -63,10 +64,10 @@ responses:
 
   # Responses for `action_search_cars` outcomes
   utter_matching_cars:
-    - text: "Okay, I found a {chosen_car_model} at €{car_price} at {dealer_location}. Does that sound suitable?"
+    - text: "I found a {chosen_car_model} at ${car_price} at {dealer_location}."
   utter_no_matches_found:
     - condition: (slots.car_model is not null or slots.car_type is not null) and slots.price_range_max is not null
-      text: "Unfortunately I don't see a {{new_or_used}} {% if car_type %}{{car_type}}{% elif car_model %}{{car_model}}{% endif %} under €{{ (price_range_max | float) | round | int }}."
+      text: "Unfortunately I don't see a {{new_or_used}} {% if car_type %}{{car_type}}{% elif car_model %}{{car_model}}{% endif %} under ${{ (price_range_max | float) | round | int }}."
       metadata:
         template: jinja
     # Default fallback when minimal info is available

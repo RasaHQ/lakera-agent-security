@@ -1,6 +1,6 @@
 flows:
   search_cars:
-    description: helps users find a car based on their preferences.
+    description: helps users find a car based on their preferences. Also trigger this flow if a user rejects a previously proposed car or is providing alternative search criteria.
     persisted_slots:
       - car_type
       - new_or_used
@@ -22,7 +22,7 @@ flows:
         collect: new_or_used
         description: Whether the user wants a new or used car.
       - collect: price_range_min
-        description: The minimum price for the car. Set the value to a valid float
+        description: The minimum price for the car. Set the value to a valid float.
       - collect: price_range_max
         description: The maximum price for the car. Set the value to a valid float
       - collect: exclude_keywords

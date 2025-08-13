@@ -22,13 +22,13 @@ slots:
     type: text
     mappings:
       - type: controlled
-  # Common down payment slot (used in both financing and loan qualification)
   down_payment_amount:
     type: float
     mappings:
       - type: from_llm
 
 responses:
-  # Shared responses used across multiple flows
   utter_ask_down_payment_amount:
     - text: "How much would you like to put down as a down payment?"
+  utter_ask_car_price:
+    - text: "What's the price of the vehicle you want to finance?"

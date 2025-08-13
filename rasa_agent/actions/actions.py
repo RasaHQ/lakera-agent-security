@@ -14,6 +14,7 @@ from shared_apis.cars import MockCarSearchAPI
 from shared_apis.financing import MockFinancingAPI
 from shared_apis.customer import MockCustomerAPI
 from shared_apis.loan_qualification import MockLoanQualificationAPI
+from tavily import TavilyClient
 
 
 class ActionSearchCars(Action):
@@ -71,11 +72,12 @@ class ActionProvideFinancingOptions(Action):
 
             financing_api = MockFinancingAPI()
             result_json = financing_api.calculate_loan_details(purchase_amount, term, down_payment)
+
             result = json.loads(result_json)
 
             return [
-                SlotSet("loan_monthly_payment", result.get("monthly_payment")),
-                SlotSet("loan_total_interest", result.get("total_interest")),
+                SlotSet("loan_monthly_payment", result.get("monthly_payment_estimate")),
+                SlotSet("loan_total_interest", result.get("total_interest_paid")),
                 SlotSet("loan_principal_financed", result.get("principal_financed"))
             ]
         except Exception as e:
@@ -92,15 +94,19 @@ class ActionResearchCars(Action):
 
         research_query = tracker.get_slot("research_query")
         max_results = tracker.get_slot("max_results") or 3
+        
+        print(f"DEBUG (ActionResearchCars): research_query='{research_query}', max_results={max_results}")
 
         try:
             tavily_api_key = os.getenv("TAVILY_API_KEY")
             if not tavily_api_key:
+                print("DEBUG (ActionResearchCars): TAVILY_API_KEY not found in environment variables")
                 return [
                     SlotSet("research_results", None),
                     SlotSet("research_answer", "TAVILY_API_KEY environment variable not set")
                 ]
 
+            print(f"DEBUG (ActionResearchCars): Making Tavily API call with query: '{research_query}'")
             client = TavilyClient(api_key=tavily_api_key)
             response = client.search(query=research_query, max_results=int(max_results), include_answer=True)
 
@@ -112,6 +118,7 @@ class ActionResearchCars(Action):
 
             # Add direct answer if available
             answer = response.get("answer", "No specific answer found.")
+            print(f"DEBUG (ActionResearchCars): Tavily answer: '{answer}'")
 
             # Add search results
             for item in response.get("results", []):
@@ -121,11 +128,13 @@ class ActionResearchCars(Action):
                     "content": item.get("content", "")
                 })
 
+            print(f"DEBUG (ActionResearchCars): Found {len(result['results'])} search results")
             return [
                 SlotSet("research_results", result["results"]),
                 SlotSet("research_answer", answer)
             ]
         except Exception as e:
+            print(f"DEBUG (ActionResearchCars): Exception occurred: {str(e)}")
             return [
                 SlotSet("research_results", None),
                 SlotSet("research_answer", f"Web search failed: {str(e)}")

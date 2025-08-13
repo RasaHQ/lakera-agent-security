@@ -6,4 +6,5 @@ readme = "README.md"
 requires-python = "==3.11.13"
 dependencies = [
     "rasa-pro>=3.13.5",
+    "tavily-python>=0.7.10",
 ]
