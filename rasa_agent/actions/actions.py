@@ -3,8 +3,17 @@ import os
 import json
 from typing import Any, Text, Dict, List
 
-# Add the parent directory to sys.path to import shared APIs
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+# Add the shared_apis directory to sys.path - works both locally and in Docker
+possible_paths = [
+    os.path.join(os.path.dirname(__file__), '..', '..'),  # Local: ../../shared_apis
+    os.path.join(os.path.dirname(__file__), '..'),        # Docker: ../shared_apis  
+    '/app'                                                # Docker absolute
+]
+
+for path in possible_paths:
+    if os.path.exists(os.path.join(path, 'shared_apis')):
+        sys.path.append(path)
+        break
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher

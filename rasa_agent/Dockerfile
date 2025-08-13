@@ -15,6 +15,7 @@ COPY endpoints.yml /app/
 COPY credentials.yml /app/
 COPY actions/ /app/actions/
 COPY models/model.tar.gz /app/models/
+COPY ../shared_apis/ /app/shared_apis/
 
 EXPOSE 5005
 WORKDIR /app
