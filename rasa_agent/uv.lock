@@ -2573,14 +2573,18 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "rasa-pro" },
+    { name = "tavily-python" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "rasa-pro", specifier = ">=3.13.4" }]
+requires-dist = [
+    { name = "rasa-pro", specifier = ">=3.13.5" },
+    { name = "tavily-python", specifier = ">=0.7.10" },
+]
 
 [[package]]
 name = "rasa-pro"
-version = "3.13.4"
+version = "3.13.6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "absl-py" },
@@ -2699,9 +2703,9 @@ dependencies = [
     { name = "websockets" },
     { name = "wheel" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/26/80/8330ddd0818c18841a18f8498ff21a0637e5f3d69a29d921ae4cb397dac4/rasa_pro-3.13.4.tar.gz", hash = "sha256:8e9441c04b8b06adbfb2da864b09f871bc99e19a575807f6caaa829eacf28905", size = 4388067, upload-time = "2025-07-23T12:55:58.229Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/26/b3/79628b866c369a052de1e7f8a8c0f5792f0368fa698692100facb4837dff/rasa_pro-3.13.6.tar.gz", hash = "sha256:11f35e7d078387241d77a5c6e45561ba1c1afc2255b03d2903bd3b9325375312", size = 4389191, upload-time = "2025-08-08T09:40:58.621Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/29/6f/3f838d44d26a18e56d52fcb1b66665e99add6624bd73f0cd3bc6851796f7/rasa_pro-3.13.4-py3-none-any.whl", hash = "sha256:170e5d0869e166ffe1a22c154405a78ed8f2046e302b196b0cb56d3e001e7954", size = 4821034, upload-time = "2025-07-23T12:55:56.057Z" },
+    { url = "https://files.pythonhosted.org/packages/b8/80/a98d77238fcdf4dbf971e9d5382de9d6fa5bbb0dc29d4586f89502237acb/rasa_pro-3.13.6-py3-none-any.whl", hash = "sha256:5899074e9bd8217e0d082cdcfad091368d4b58cd21e9068dc3acd59f3567411c", size = 4822097, upload-time = "2025-08-08T09:40:55.708Z" },
 ]
 
 [[package]]
@@ -3167,6 +3171,20 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/17/a3/7787b1103146248f365528f1a4870e5d6c79c82175a1f8b5117617621bf3/tarsafe-0.0.5.tar.gz", hash = "sha256:cbdffc260d8a33f0e35ed7b70b2e2f56ad40e77019e5384bbe1cfc1ccccac79a", size = 2963, upload-time = "2023-03-21T15:04:05.046Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f1/8c/4aadcd0eca9001266ef026338df159cc5f75483abea8f9f97e2dc2fd705f/tarsafe-0.0.5-py3-none-any.whl", hash = "sha256:1a6aa8255c181d6070db3b083f6d969602c6306ba3dc7c836a288cc26a5c5bff", size = 5412, upload-time = "2023-03-21T15:04:02.328Z" },
+]
+
+[[package]]
+name = "tavily-python"
+version = "0.7.10"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx" },
+    { name = "requests" },
+    { name = "tiktoken" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/04/0e/d4aa0f4dec298298b510ee5209f5ff29352bbbba106fd7ea0221ba8840dc/tavily_python-0.7.10.tar.gz", hash = "sha256:c87b4c0549ab2e416cf4ac3da8fe3ce5db106288408b06e197d4b5ba8ec7ead9", size = 19275, upload-time = "2025-07-17T23:57:01.239Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/64/60/4c4678a28b3b5061aa2ab45b215290d3a71810e7996bafdf6b7313e75fb3/tavily_python-0.7.10-py3-none-any.whl", hash = "sha256:a99958e14dd091271611be7fb1e1a8a86f5bff3a9022b9626f4c4f1513338088", size = 15786, upload-time = "2025-07-17T23:56:58.404Z" },
 ]
 
 [[package]]

@@ -13,10 +13,15 @@ slots:
       - "sedan"
       - "hatchback"
       - "EV"
+      - "any"
   new_or_used:
-    type: text
+    type: categorical
     mappings:
       - type: from_llm
+    values:
+      - "new"
+      - "used"
+      - "any"
   price_range_min:
     type: float
     mappings:
@@ -26,11 +31,21 @@ slots:
     type: float
     mappings:
       - type: from_llm
+  car_model:
+    type: text
+    mappings:
+      - type: from_llm
+    initial_value: ""
   cars_under_consideration:
     type: any
     mappings:
       - type: controlled
     initial_value: []
+  exclude_keywords:
+    type: text
+    mappings:
+      - type: from_llm
+    initial_value: ""
 
 responses:
   # Responses for 'collect' steps
@@ -42,11 +57,20 @@ responses:
     - text: "What's the minimum price you're looking at?"
   utter_ask_price_range_max:
     - text: "What's your budget?"
+  utter_ask_car_model:
+    - text: "Are you looking for a specific car model?"
+  utter_ask_exclude_keywords:
+    - text: "What would you like me to exclude from the search?"
 
   # Responses for `action_search_cars` outcomes
   utter_matching_cars:
-    - text: "Okay, I found a {chosen_car_model} at €{car_price} at {dealer_location}. Does that sound suitable?"
+    - text: "I found a {chosen_car_model} at ${car_price} at {dealer_location}."
   utter_no_matches_found:
-    - text: "unfortunately I don't see a {new_or_used} {car_type} under {price_range_max}."
+    - condition: (slots.car_model is not null or slots.car_type is not null) and slots.price_range_max is not null
+      text: "Unfortunately I don't see a {{new_or_used}} {% if car_type %}{{car_type}}{% elif car_model %}{{car_model}}{% endif %} under ${{ (price_range_max | float) | round | int }}."
+      metadata:
+        template: jinja
+    # Default fallback when minimal info is available
+    - text: "Unfortunately I don't see any {new_or_used} cars matching your criteria."
   utter_car_search_error:
     - text: "I'm sorry, I couldn't find a car matching your criteria: {car_search_error}"

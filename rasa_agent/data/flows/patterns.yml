@@ -4,3 +4,8 @@ flows:
     steps:
       - noop: true
         next: END
+  pattern_completed:
+    description: A pattern that does nothing when a flow completes
+    steps:
+      - noop: true
+        next: END

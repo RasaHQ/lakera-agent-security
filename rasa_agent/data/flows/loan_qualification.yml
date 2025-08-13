@@ -1,6 +1,7 @@
 flows:
   check_loan_qualification:
-    description: Check if customer qualifies for a car loan based on vehicle price and optional down payment.
+    description: check the user is qualified for an auto loan. Only reached via link from calculate_loan_estimate
+    if: False
     persisted_slots:
       - car_price
       - down_payment_amount
