@@ -11,11 +11,11 @@ USER 1001
 
 RUN mkdir -p /app/models /app/actions
 
-COPY endpoints.yml /app/
-COPY credentials.yml /app/
-COPY actions/ /app/actions/
-COPY models/model.tar.gz /app/models/
-COPY ../shared_apis/ /app/shared_apis/
+COPY rasa_agent/endpoints.yml /app/
+COPY rasa_agent/credentials.yml /app/
+COPY rasa_agent/actions/ /app/actions/
+COPY rasa_agent/models/model.tar.gz /app/models/
+COPY shared_apis/ /app/shared_apis/
 
 EXPOSE 5005
 WORKDIR /app
