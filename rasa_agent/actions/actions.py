@@ -190,14 +190,3 @@ class ActionCheckLoanQualification(Action):
             ]
         except Exception as e:
             return [SlotSet("loan_approved", False)]
-
-class ActionValidateCarType(Action):
-    def name(self) -> Text:
-        return "validate_car_type"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        """Unset the car_model slot if car_type is set."""
-        print("DEBUG: XXXX validating car type")
-        return [SlotSet("car_type", tracker.get_slot("car_type")), SlotSet("car_model", "any")]
