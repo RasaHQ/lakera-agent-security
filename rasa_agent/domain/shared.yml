@@ -32,3 +32,7 @@ responses:
     - text: "How much would you like to put down as a down payment?"
   utter_ask_car_price:
     - text: "What's the price of the vehicle you want to finance?"
+  utter_welcome_message:
+    - text: "Hi! I can help you find and finance a car."
+      metadata:
+        rephrase: False

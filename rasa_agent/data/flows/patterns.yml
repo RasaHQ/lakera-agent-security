@@ -9,3 +9,10 @@ flows:
     steps:
       - noop: true
         next: END
+  pattern_session_start:
+    nlu_trigger:
+      - intent: session_start
+    description: Flow for starting the conversation
+    name: pattern session start
+    steps:
+      - action: utter_welcome_message
