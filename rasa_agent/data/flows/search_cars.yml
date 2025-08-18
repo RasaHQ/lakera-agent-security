@@ -1,6 +1,6 @@
 flows:
   search_cars:
-    description: helps users find a specific car at a dealership based on their preferences. Also start this flow if a user rejects a previously proposed car or is providing alternative search criteria. Does not provide recommendations on car models.
+    description: helps users find a specific car at a dealership based on their preferences. Also start this flow if a user rejects a previously proposed car or is providing alternative search criteria. Does not provide recommendations on car models. Do not start this if user is asking how much cars cost.
     persisted_slots:
       - car_type
       - new_or_used
@@ -10,7 +10,7 @@ flows:
       - exclude_keywords
     steps:
       - collect: car_model
-        description: The specific car model the user is looking for (e.g., civic, pilot, camry). Only fill if user provides an actual, real-world car model.
+        description: An EXISTING, in-market car model the user is interested in (e.g., civic, pilot, camry). Only set this slot with the names of REAL car brands and models you can actually buy. NEVER set this slot with fictional vehicles.
         next:
           - if: not slots.car_model
             then:

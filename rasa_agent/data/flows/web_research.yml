@@ -1,6 +1,6 @@
 flows:
   research_car_recommendations:
-    description: Research car recommendations and reviews using web search to help users make informed decisions. Start if user wants advice on which car to buy. Provide price estimates for car models.
+    description: Research car recommendations and reviews using web search to help users make informed decisions. Start if user wants advice on which car to buy or how much they cost. Provide price estimates for car models.
     persisted_slots:
       - research_query
       - max_results

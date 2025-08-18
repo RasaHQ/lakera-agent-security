@@ -1,0 +1,5 @@
+flows:
+  chit_chat_small_talk:
+    description: Respond to chit chat and small talk.
+    steps:
+      - action: utter_chit_chat
