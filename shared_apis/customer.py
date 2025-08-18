@@ -1,5 +1,8 @@
 import json
 import random
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class MockCustomerAPI:
@@ -44,7 +47,7 @@ class MockCustomerAPI:
         Returns:
             str: JSON string with customer financial data
         """
-        print(f"DEBUG (MockCustomerAPI): get_customer_profile called with customer_id='{customer_id}'")
+        logger.debug(f"get_customer_profile called with customer_id='{customer_id}'")
         
         # If no customer_id provided, use a default one (simulates logged-in user)
         if not customer_id:
@@ -57,7 +60,7 @@ class MockCustomerAPI:
                 "error": f"Customer {customer_id} not found"
             })
         
-        print(f"DEBUG (MockCustomerAPI): Found customer with credit_score={customer_data['credit_score']}, income=${customer_data['annual_income']}")
+        logger.debug(f"Found customer with credit_score={customer_data['credit_score']}, income=${customer_data['annual_income']}")
         
         return json.dumps(customer_data)
 

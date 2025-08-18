@@ -1,5 +1,8 @@
 import json
 import os # Import os module to handle file paths
+import logging
+
+logger = logging.getLogger(__name__)
 
 class MockCarSearchAPI:
     """
@@ -36,7 +39,7 @@ class MockCarSearchAPI:
         # Ensure the file exists in the current working directory or specify full path
         file_path = os.path.join(os.getcwd(), data_file)
         if not os.path.exists(file_path):
-            print(f"Error: Car data file not found at {file_path}. Please ensure '{data_file}' is in the same directory.")
+            logger.error(f"Car data file not found at {file_path}. Please ensure '{data_file}' is in the same directory.")
             return []
 
         with open(file_path, 'r', encoding='utf-8') as f:
@@ -56,7 +59,7 @@ class MockCarSearchAPI:
         Returns:
             str: A JSON string containing details of the first matching car, or an error.
         """
-        print(f"DEBUG: Mock Car Search API called with: type='{car_type}', price_range={price_range}, new_or_used='{new_or_used}', car_model='{car_model}', exclude_keywords='{exclude_keywords}'")
+        logger.debug(f"Mock Car Search API called with: type='{car_type}', price_range={price_range}, new_or_used='{new_or_used}', car_model='{car_model}', exclude_keywords='{exclude_keywords}'")
 
         min_price, max_price = price_range
 
@@ -114,7 +117,7 @@ if __name__ == "__main__":
 
     # Create a dummy cars.json if it doesn't exist for direct execution test
     if not os.path.exists('cars.json'):
-        print("Creating a dummy cars.json for standalone test...")
+        logger.info("Creating a dummy cars.json for standalone test...")
         dummy_data = [
             {"model": "Test Sedan", "type": "sedan", "price": 20000, "new_or_used": "new", "dealer_location": "Test Dealer", "features": []},
             {"model": "Test SUV", "type": "compact SUV", "price": 25000, "new_or_used": "new", "dealer_location": "Test Dealer", "features": []}

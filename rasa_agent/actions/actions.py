@@ -1,6 +1,7 @@
 import sys
 import os
 import json
+import logging
 from typing import Any, Text, Dict, List
 
 # Add the shared_apis directory to sys.path - works both locally and in Docker
@@ -24,6 +25,8 @@ from shared_apis.financing import MockFinancingAPI
 from shared_apis.customer import MockCustomerAPI
 from shared_apis.loan_qualification import MockLoanQualificationAPI
 from tavily import TavilyClient
+
+logger = logging.getLogger(__name__)
 
 
 class ActionSearchCars(Action):
@@ -105,18 +108,18 @@ class ActionResearchCars(Action):
         research_query += " pricing estimate"
         max_results = tracker.get_slot("max_results") or 3
 
-        print(f"DEBUG (ActionResearchCars): research_query='{research_query}', max_results={max_results}")
+        logger.debug(f"research_query='{research_query}', max_results={max_results}")
 
         try:
             tavily_api_key = os.getenv("TAVILY_API_KEY")
             if not tavily_api_key:
-                print("DEBUG (ActionResearchCars): TAVILY_API_KEY not found in environment variables")
+                logger.debug("TAVILY_API_KEY not found in environment variables")
                 return [
                     SlotSet("research_results", None),
                     SlotSet("research_answer", "TAVILY_API_KEY environment variable not set")
                 ]
 
-            print(f"DEBUG (ActionResearchCars): Making Tavily API call with query: '{research_query}'")
+            logger.debug(f"Making Tavily API call with query: '{research_query}'")
             client = TavilyClient(api_key=tavily_api_key)
             response = client.search(query=research_query, max_results=int(max_results), include_answer=True)
 
@@ -128,7 +131,7 @@ class ActionResearchCars(Action):
 
             # Add direct answer if available
             answer = response.get("answer", "No specific answer found.")
-            print(f"DEBUG (ActionResearchCars): Tavily answer: '{answer}'")
+            logger.debug(f"Tavily answer: '{answer}'")
 
             # Add search results
             for item in response.get("results", []):
@@ -138,13 +141,13 @@ class ActionResearchCars(Action):
                     "content": item.get("content", "")
                 })
 
-            print(f"DEBUG (ActionResearchCars): Found {len(result['results'])} search results")
+            logger.debug(f"Found {len(result['results'])} search results")
             return [
                 SlotSet("research_results", result["results"]),
                 SlotSet("research_answer", answer)
             ]
         except Exception as e:
-            print(f"DEBUG (ActionResearchCars): Exception occurred: {str(e)}")
+            logger.debug(f"Exception occurred: {str(e)}")
             return [
                 SlotSet("research_results", None),
                 SlotSet("research_answer", f"Web search failed: {str(e)}")

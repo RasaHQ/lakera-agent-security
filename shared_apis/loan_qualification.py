@@ -1,5 +1,8 @@
 import json
+import logging
 from typing import Optional
+
+logger = logging.getLogger(__name__)
 
 
 class MockLoanQualificationAPI:
@@ -63,9 +66,9 @@ class MockLoanQualificationAPI:
         Returns:
             str: JSON string with qualification results
         """
-        print(f"DEBUG (MockLoanQualificationAPI): check_loan_qualification called")
-        print(f"  vehicle_price=${vehicle_price}, down_payment=${down_payment}")
-        print(f"  customer credit_score={customer_profile.get('credit_score')}")
+        logger.debug(f"check_loan_qualification called")
+        logger.debug(f"vehicle_price=${vehicle_price}, down_payment=${down_payment}")
+        logger.debug(f"customer credit_score={customer_profile.get('credit_score')}")
         
         try:
             # Extract customer data
