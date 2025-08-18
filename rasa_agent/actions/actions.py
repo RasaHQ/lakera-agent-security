@@ -48,7 +48,7 @@ class ActionSearchCars(Action):
             min_price = float(price_range_min or 0)
             max_price = float(price_range_max or 999999)
 
-            car_api = MockCarSearchAPI(os.path.join(os.path.dirname(__file__), '..', '..', 'shared_apis', 'cars.json'))
+            car_api = MockCarSearchAPI()
             result_json = car_api.search_cars(car_type, (min_price, max_price), new_or_used, car_model, exclude_keywords)
             result = json.loads(result_json)
 

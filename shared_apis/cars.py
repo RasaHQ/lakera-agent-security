@@ -16,6 +16,19 @@ class MockCarSearchAPI:
         Args:
             data_file (str): The path to the JSON file containing car data.
         """
+        # If no specific path provided, try to find cars.json in common locations
+        if data_file == 'cars.json':
+            candidates = [
+                'cars.json',  # Current directory
+                os.path.join(os.path.dirname(__file__), 'cars.json'),  # Same dir as this file
+                '/app/shared_apis/cars.json'  # Docker location
+            ]
+            
+            for candidate in candidates:
+                if os.path.exists(candidate):
+                    data_file = candidate
+                    break
+        
         self.cars_data = self._load_car_data(data_file)
 
     def _normalize_keywords(self, text):
@@ -36,10 +49,15 @@ class MockCarSearchAPI:
         """
         Loads car data from a JSON file.
         """
-        # Ensure the file exists in the current working directory or specify full path
-        file_path = os.path.join(os.getcwd(), data_file)
+        # If absolute path provided, use it directly
+        if os.path.isabs(data_file):
+            file_path = data_file
+        else:
+            # Try relative to current working directory first
+            file_path = os.path.join(os.getcwd(), data_file)
+        
         if not os.path.exists(file_path):
-            logger.error(f"Car data file not found at {file_path}. Please ensure '{data_file}' is in the same directory.")
+            logger.error(f"Car data file not found at {file_path}. Please ensure '{data_file}' is accessible.")
             return []
 
         with open(file_path, 'r', encoding='utf-8') as f:
