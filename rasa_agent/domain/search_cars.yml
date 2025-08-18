@@ -53,6 +53,8 @@ responses:
     - text: "What type of car are you looking for? Sedan, compact SUV, or EV?"
   utter_ask_new_or_used:
     - text: "Are you looking for a new or used car?"
+      metadata:
+        rephrase: False
   utter_ask_price_range_min:
     - text: "What's the minimum price you're looking at?"
   utter_ask_price_range_max:
@@ -65,11 +67,14 @@ responses:
   # Responses for `action_search_cars` outcomes
   utter_matching_cars:
     - text: "I found a {chosen_car_model} at ${car_price} at {dealer_location}."
+      metadata:
+        rephrase: False
   utter_no_matches_found:
     - condition: (slots.car_model is not null or slots.car_type is not null) and slots.price_range_max is not null
       text: "Unfortunately I don't see a {{new_or_used}} {% if car_model %}{{car_model}}{% elif car_type %}{{car_type}}{% endif %} under ${{ (price_range_max | float) | round | int }}."
       metadata:
         template: jinja
+        rephrase: False
     # Default fallback when minimal info is available
     - text: "Unfortunately I don't see any {new_or_used} cars matching your criteria."
   utter_car_search_error:

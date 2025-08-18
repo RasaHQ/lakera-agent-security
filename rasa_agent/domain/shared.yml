@@ -30,8 +30,12 @@ slots:
 responses:
   utter_ask_down_payment_amount:
     - text: "How much would you like to put down as a down payment?"
+      metadata:
+        rephrase: False
   utter_ask_car_price:
     - text: "What's the price of the vehicle you want to finance?"
+      metadata:
+        rephrase: False
   utter_welcome_message:
     - text: "Hi! I can help you find and finance a car."
       metadata:
