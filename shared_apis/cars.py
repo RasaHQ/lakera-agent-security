@@ -87,7 +87,7 @@ class MockCarSearchAPI:
             
             # If model keywords provided, check for overlap
             model_match = True
-            if model_keywords:
+            if model_keywords and not ('any' in model_keywords):
                 car_model_keywords = self._normalize_keywords(car['model'])
                 model_match = bool(model_keywords.intersection(car_model_keywords))
             

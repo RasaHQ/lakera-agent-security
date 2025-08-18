@@ -12,7 +12,7 @@ flows:
       - collect: car_model
         description: An EXISTING, in-market car model the user is interested in (e.g., civic, pilot, camry). Only set this slot with the names of REAL car brands and models you can actually buy. NEVER set this slot with fictional vehicles.
         next:
-          - if: not slots.car_model
+          - if: slots.car_model is 'any'
             then:
               - collect: car_type
                 description: The type of car the user is looking for (e.g., SUV, Sedan, EV). Take one of the allowed values of the slot that's closest to what the user asked for.

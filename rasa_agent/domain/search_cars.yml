@@ -35,7 +35,7 @@ slots:
     type: text
     mappings:
       - type: from_llm
-    initial_value: ""
+    initial_value: "any"
   cars_under_consideration:
     type: any
     mappings:
