@@ -79,3 +79,5 @@ responses:
     - text: "Unfortunately I don't see any {new_or_used} cars matching your criteria."
   utter_car_search_error:
     - text: "I'm sorry, I couldn't find a car matching your criteria: {car_search_error}"
+  utter_more_car_details:
+    - text: "You can find all of this car's details on the dealership's website: www.example.com)."
