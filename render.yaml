@@ -2,7 +2,7 @@ services:
   - type: web
     runtime: docker
     name: rasa-agent
-    rootDir: rasa_agent
+    dockerfilePath: ./rasa_agent/Dockerfile
     plan: starter
     envVars:
       - key: RASA_PRO_LICENSE
