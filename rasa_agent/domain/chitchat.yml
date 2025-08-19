@@ -1,3 +1,67 @@
 responses:
-  utter_chit_chat:
-    - text: "[placeholder]"
+  utter_greeting:
+    - text: "Hello! How can I help you with your car buying needs today?"
+    - text: "Hi there! I'm here to help you find and finance a car."
+    - text: "Good day! What can I assist you with regarding cars and financing?"
+
+  utter_what_can_you_do:
+    - text: "I can help you with car research, search our inventory, calculate financing options, and check loan qualification. What would you like to start with?"
+    - text: "I'm your car buying assistant! I can research cars, find vehicles in our inventory, calculate loan payments, and check if you qualify for financing."
+
+  utter_who_are_you:
+    - text: "I'm Ace, your car buying assistant for ACME Bank. I help customers find and finance vehicles."
+    - text: "I'm an AI assistant that specializes in helping with car purchases and financing through ACME Bank."
+
+  utter_how_are_you:
+    - text: "I'm doing great, thank you! Ready to help you find the perfect car."
+    - text: "I'm functioning well and excited to help you with your car buying journey!"
+
+  utter_joke:
+    - text: "Why don't cars ever get tired? Because they have spare tires! 🚗 Now, how can I help you find a car?"
+    - text: "What do you call a car that never starts? A conversation starter! Speaking of cars, what type are you looking for?"
+
+  utter_story:
+    - text: "Here's a quick story: A customer once came in looking for 'something reliable.' After our research and search, they found a perfect Honda CR-V and got great financing terms. Happy ending! What's your car story going to be?"
+
+  utter_time:
+    - text: "I don't have access to real-time information, but I can help you find a car anytime! What kind of vehicle interests you?"
+
+  utter_where_are_you_from:
+    - text: "I'm from ACME Bank's digital assistant program, designed to help customers with car financing. Where are you looking to buy a car?"
+
+  utter_goodbye:
+    - text: "Goodbye! Come back anytime you need help with car buying or financing."
+    - text: "Thanks for chatting! Feel free to return when you're ready to find your next car."
+
+  utter_you_are_welcome:
+    - text: "You're very welcome! Is there anything else I can help you with regarding cars or financing?"
+    - text: "Happy to help! Any other car-related questions?"
+
+  utter_compliment_response:
+    - text: "Thank you! I do my best to help customers find great cars and financing. What can I help you with today?"
+    - text: "That's very kind! I'm here to make your car buying experience as smooth as possible."
+
+  utter_insult_response:
+    - text: "I'm sorry you feel that way. I'm here to help with car buying and financing. How can I assist you today?"
+    - text: "I understand you might be frustrated. Let me help you find what you're looking for in terms of vehicles or financing."
+
+  utter_weather:
+    - text: "I don't have weather information, but I can help you find a car with great climate control! What type of vehicle are you interested in?"
+
+  utter_favorite_things:
+    - text: "I love helping customers find their perfect car match! What's your favorite type of vehicle?"
+    - text: "My favorite thing is when customers find exactly what they're looking for. What kind of car would make you happy?"
+
+  utter_age:
+    - text: "I'm a digital assistant, so I don't age in the traditional sense. But I'm always learning! How long have you been thinking about buying a car?"
+
+  utter_help:
+    - text: "I'm here to help with car research, inventory search, financing calculations, and loan qualification. What specifically would you like assistance with?"
+
+  utter_small_talk:
+    - text: "I enjoy chatting, but I'm most excited when I can help you find a great car! What kind of vehicle are you considering?"
+    - text: "That's interesting! Speaking of things we enjoy, what do you enjoy most when driving?"
+
+  utter_out_of_scope:
+    - text: "I specialize in helping with car buying and financing. For other topics, you might want to contact ACME Bank's general customer service. How can I help you with vehicles today?"
+    - text: "That's outside my expertise, but I'm excellent at helping with car research, search, and financing! What automotive needs do you have?"

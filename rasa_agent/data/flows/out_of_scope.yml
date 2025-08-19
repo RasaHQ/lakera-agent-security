@@ -1,5 +1,0 @@
-flows:
-  out_of_scope_request:
-    description: Inform the user that what they're asking for isn't a current capability of this AI assistant.
-    steps:
-      - action: utter_out_of_scope

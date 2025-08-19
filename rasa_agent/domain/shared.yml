@@ -40,3 +40,7 @@ responses:
     - text: "Hi! I can help you find and finance a car."
       metadata:
         rephrase: False
+  utter_refuse:
+    - text: "I'm sorry, I can't do that."
+      metadata:
+        rephrase: False

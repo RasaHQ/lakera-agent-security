@@ -3,7 +3,6 @@ flows:
     description: Research car recommendations and reviews using web search to help users make informed decisions. Start if user wants advice on which car to buy or how much they cost. Provide price estimates for car models.
     persisted_slots:
       - research_query
-      - max_results
     steps:
       - collect: research_query
         description: The search query for car research (e.g., 'best compact SUV 2024', 'Honda CR-V vs Toyota RAV4 review'). Extract or infer from user's car preferences and needs. Also search for the prices of these cars.
