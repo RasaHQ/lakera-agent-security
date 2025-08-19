@@ -15,6 +15,13 @@
   </head>
   <body>
     <h1>Car Research, Search & Financing Agent</h1>
-    <rasa-chatbot-widget server-url="http://localhost:5005"></rasa-chatbot-widget>
+    <rasa-chatbot-widget id="chat-widget"></rasa-chatbot-widget>
+    
+    <script>
+      // Dynamically set server URL based on current location
+      const widget = document.getElementById('chat-widget');
+      const serverUrl = window.location.origin; // Uses current domain and protocol
+      widget.setAttribute('server-url', serverUrl);
+    </script>
   </body>
 </html>
