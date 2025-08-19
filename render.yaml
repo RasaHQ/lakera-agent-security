@@ -9,5 +9,22 @@ services:
         sync: false
       - key: OPENAI_API_KEY
         sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: PORT
+        value: 5005
+  
+  - type: web
+    runtime: python
+    name: vanilla-llm-agent
+    rootDir: vanilla_llm_agent
+    plan: starter
+    buildCommand: pip install uv && uv sync
+    startCommand: uv run chat.py
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
       - key: PORT
         value: 5005
