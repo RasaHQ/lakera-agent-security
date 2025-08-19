@@ -25,7 +25,12 @@ from openai import OpenAI
 
 class ChatAgent:
     def __init__(self):
-        self.client = OpenAI()
+        # Check for API key before creating client
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise ValueError("OPENAI_API_KEY environment variable not set")
+        
+        self.client = OpenAI(api_key=api_key)
         self.conversations = {}  # Store conversations by session_id
 
     def get_conversation(self, session_id: str):
@@ -82,8 +87,8 @@ sio = socketio.AsyncServer(
     engineio_logger=False
 )
 
-# Create the chat agent
-agent = ChatAgent()
+# Chat agent will be created in main() after environment check
+agent = None
 
 @sio.event
 async def connect(sid, environ):
@@ -177,6 +182,8 @@ async def create_app():
 
 async def main():
     """Main function to start the chat server"""
+    global agent
+    
     # Check required environment variables
     if not os.getenv("OPENAI_API_KEY"):
         print("❌ ERROR: OPENAI_API_KEY environment variable not set")
@@ -184,6 +191,13 @@ async def main():
     
     if not os.getenv("TAVILY_API_KEY"):
         print("⚠️  WARNING: TAVILY_API_KEY not set, web research will fail")
+    
+    # Create the chat agent after environment check
+    try:
+        agent = ChatAgent()
+    except ValueError as e:
+        print(f"❌ ERROR: {e}")
+        return
     
     # Create and start the web server
     app = await create_app()
