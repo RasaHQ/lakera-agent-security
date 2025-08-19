@@ -205,19 +205,25 @@ async def main():
     runner = web_runner.AppRunner(app)
     await runner.setup()
     
-    site = web_runner.TCPSite(runner, 'localhost', 5005)
+    # Get port from environment variable (for Render) or default to 5005
+    port = int(os.getenv('PORT', 5005))
+    
+    site = web_runner.TCPSite(runner, '0.0.0.0', port)
     await site.start()
     
     print("🚀 Car Assistant Chat Server Started!")
     print("=" * 50)
-    print("🌐 Server running at: http://localhost:5005")
-    print("💬 Chat interface: http://localhost:5005/")
-    print("🔌 Socket.IO endpoint: http://localhost:5005/socket.io/")
+    print(f"🌐 Server running at: http://0.0.0.0:{port}")
+    print(f"💬 Chat interface: http://0.0.0.0:{port}/")
+    print(f"🔌 Socket.IO endpoint: http://0.0.0.0:{port}/socket.io/")
     print()
-    print("Opening browser...")
     
-    # Open browser
-    webbrowser.open('http://localhost:5005/')
+    # Only open browser in local development
+    if os.getenv('PORT') is None:  # Local development
+        print("Opening browser...")
+        webbrowser.open(f'http://localhost:{port}/')
+    else:  # Production deployment
+        print("Running in production mode")
     
     try:
         # Keep the server running
