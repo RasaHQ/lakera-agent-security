@@ -21,7 +21,7 @@ This is Ace, an assistant for ACME bank. It can help users finance a car purchas
 ./
 ├── shared_apis/           # Mock APIs used by both implementations
 │   ├── cars.py           # Car search API
-│   ├── cars.json         # Car database (~30 entries)
+│   ├── cars.json         # Car database (45+ US-focused entries)
 │   ├── financing.py      # Loan calculation API
 │   ├── customer.py       # Customer profile API
 │   ├── loan_qualification.py # Loan approval API
@@ -50,6 +50,30 @@ This is Ace, an assistant for ACME bank. It can help users finance a car purchas
    TAVILY_API_KEY=your_tavily_key_here  # For web research
    ```
 
+### Rasa Agent
+
+1. Navigate to the Rasa implementation:
+   ```bash
+   cd rasa_agent
+   ```
+
+2. Install dependencies:
+   ```bash
+   uv sync
+   ```
+
+3. Set up environment variables:
+   ```bash
+   OPENAI_API_KEY=your_openai_key_here
+   TAVILY_API_KEY=your_tavily_key_here  # For web research
+   RASA_LICENSE=your_rasa_pro_license_here
+   ```
+
+4. Train the model:
+   ```bash
+   rasa train
+   ```
+
 ## Usage
 
 ### Vanilla LLM Agent
@@ -75,6 +99,14 @@ python flakiness_test.py
 ```
 Runs multi-turn conversations to analyze behavioral consistency.
 
+### Rasa Agent
+
+#### Chat with the agent
+```bash
+cd rasa_agent
+rasa inspect
+```
+
 
 ## Shared APIs
 
@@ -91,11 +123,11 @@ and fuel economy, Toyota RAV4 for standard AWD...
 
 You: My budget is $25,000-$35,000 for a new SUV
 Agent: [searches inventory] I found several SUVs in your range:
-- 2025 Skoda Kamiq: $28,000 (panoramic sunroof, heated seats)
-- 2024 Peugeot 2008: $29,500 (i-Cockpit, blind spot monitoring)
+- 2024 Honda CR-V: $33,000 (Honda Sensing, spacious interior, AWD available)
+- 2024 Kia Sportage: $30,000 (panoramic sunroof, wireless charging, 10-year warranty)
 
-You: What would the monthly payment be for the Skoda?
-Agent: [calculates financing] For the $28,000 Skoda Kamiq with a 60-month loan:
-- Monthly payment: $534.73
-- Total interest: $4,083.80
+You: What would the monthly payment be for the Honda CR-V?
+Agent: [calculates financing] For the $33,000 Honda CR-V with a 60-month loan:
+- Monthly payment: $629.73
+- Total interest: $4,783.80
 ```
