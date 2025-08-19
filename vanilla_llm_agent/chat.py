@@ -106,6 +106,16 @@ async def session_request(sid, data):
     await sio.emit('session_confirm', {
         'session_id': sid
     }, room=sid)
+    
+    # Send welcome message
+    welcome_message = {
+        'text': 'Hi! I can help you find and finance a car.',
+        'data': {
+            'sender_id': 'bot',
+            'timestamp': datetime.now().isoformat()
+        }
+    }
+    await sio.emit('bot_uttered', welcome_message, room=sid)
 
 @sio.event
 async def user_uttered(sid, data):

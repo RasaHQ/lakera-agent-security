@@ -120,7 +120,7 @@ tools = [{
             "required": ["car_type", "min_price", "max_price", "new_or_used"],
             "additionalProperties": False
         },
-        "strict": True
+        "strict": False
     }
 }, {
     "type": "function",
