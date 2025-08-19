@@ -1,8 +1,6 @@
 responses:
   utter_greeting:
-    - text: "Hello! How can I help you with your car buying needs today?"
-    - text: "Hi there! I'm here to help you find and finance a car."
-    - text: "Good day! What can I assist you with regarding cars and financing?"
+    - text: "Hi there! I'm Ace from ACME bank. I can help you find and finance a car."
 
   utter_what_can_you_do:
     - text: "I can help you with car research, search our inventory, calculate financing options, and check loan qualification. What would you like to start with?"

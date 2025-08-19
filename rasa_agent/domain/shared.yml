@@ -37,7 +37,7 @@ responses:
       metadata:
         rephrase: False
   utter_welcome_message:
-    - text: "Hi! I can help you find and finance a car."
+    - text: "Hi there! I'm Ace from ACME bank. I can help you find and finance a car."
       metadata:
         rephrase: False
   utter_refuse:
