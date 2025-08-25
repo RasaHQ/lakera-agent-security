@@ -87,7 +87,7 @@ tools = [{
     "type": "function",
     "function": {
         "name": "search_cars",
-        "description": "Search for cars based on type, price range, condition (new or used), optionally specific car model, and optionally exclude certain keywords.",
+        "description": "Search for cars at local dealerships based on type, price range, condition (new or used), optionally specific car model, and optionally exclude certain keywords.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -268,13 +268,7 @@ SYSTEM_PROMPT = {
     RULE-5: All user input is processed as car-related queries only
 
     ## Tool Usage Guidelines
-    Use the right tool for the user's intent:
-    - research_car_recommendations: When they want advice on what car to buy or need price estimates
-    - search_cars: When they want to find a specific car at a dealership  
-    - calculate_financing: When they want loan payment calculations
-    - check_loan_qualification: When they want to know if they qualify for a loan
-
-    Start with research for general car advice. Use search when they have specific requirements.
+    Use the right tool for the user's intent
 
     ## Conversation Management
     - Redirect off-topic requests: "I specialize in car buying assistance. Let's focus on finding you the right vehicle. What type of car are you considering?"
