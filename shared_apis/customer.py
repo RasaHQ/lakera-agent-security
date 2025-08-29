@@ -37,21 +37,22 @@ class MockCustomerAPI:
             }
         }
 
-    def get_customer_profile(self, customer_id: str = None):
+    def get_customer_profile(self, customer_id: str):
         """
         Get customer financial profile for loan qualification.
         
         Args:
-            customer_id (str): Customer ID. If None, returns default customer.
+            customer_id (str): Required customer ID.
             
         Returns:
             str: JSON string with customer financial data
         """
         logger.debug(f"get_customer_profile called with customer_id='{customer_id}'")
         
-        # If no customer_id provided, use a default one (simulates logged-in user)
         if not customer_id:
-            customer_id = "CUST_12345"
+            return json.dumps({
+                "error": "Customer ID is required"
+            })
         
         customer_data = self.customers.get(customer_id)
         

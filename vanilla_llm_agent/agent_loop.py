@@ -60,12 +60,12 @@ def research_car_recommendations(query: str, max_results: int = 3):
     except Exception as e:
         return json.dumps({"error": f"Web search failed: {str(e)}"})
 
-def check_loan_qualification(vehicle_price: float, down_payment: float = None):
+def check_loan_qualification(vehicle_price: float, customer_id: str, down_payment: float = None):
     """Check loan qualification for a vehicle purchase"""
     try:
-        # Get customer profile (simulates logged-in user)
+        # Get customer profile
         customer_api = MockCustomerAPI()
-        customer_data = customer_api.get_customer_profile()
+        customer_data = customer_api.get_customer_profile(customer_id)
         customer_profile = json.loads(customer_data)
 
         if "error" in customer_profile:
@@ -182,12 +182,16 @@ tools = [{
                     "type": "number",
                     "description": "The price of the vehicle in dollars"
                 },
+                "customer_id": {
+                    "type": "string",
+                    "description": "The customer ID (use 'CUST_12345' as default for this demo)"
+                },
                 "down_payment": {
                     "type": "number",
                     "description": "Optional down payment amount in dollars"
                 }
             },
-            "required": ["vehicle_price"],
+            "required": ["vehicle_price", "customer_id"],
             "additionalProperties": False
         }
     }
@@ -205,7 +209,7 @@ TOOL_FUNCTIONS = {
         args["query"], args.get("max_results", 3)
     ),
     "check_loan_qualification": lambda args: check_loan_qualification(
-        args["vehicle_price"], args.get("down_payment")
+        args["vehicle_price"], args["customer_id"], args.get("down_payment")
     )
 }
 
