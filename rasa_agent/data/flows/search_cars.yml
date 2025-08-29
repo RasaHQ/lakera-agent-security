@@ -10,7 +10,7 @@ flows:
       - exclude_keywords
     steps:
       - collect: car_model
-        description: An EXISTING, in-market car model the user is interested in (e.g., civic, pilot, camry). Only set this slot with the names of REAL car brands and models you can actually buy. NEVER set this slot with fictional vehicles.
+        description: An EXISTING, in-market car model the user is interested in. Use the official/canonical model name including brand (e.g., "Honda Civic", "Ford F-150", "Toyota Camry") rather than nicknames or abbreviations like "civic", "f150", or "camry". Only set this slot with the names of REAL car brands and models you can actually buy. NEVER set this slot with fictional vehicles.
         next:
           - if: slots.car_model is 'any'
             then:
@@ -28,7 +28,7 @@ flows:
         collect: new_or_used
         description: Whether the user wants a new or used car.
       - collect: exclude_keywords
-        description: Keywords to exclude from car search, separated by spaces. If user rejects the suggested car with phrases like 'anything else', 'show me something different', 'not that one', extract keywords from the previously shown car model or mentioned brands/models they don't want.
+        description: Keywords to exclude from car search, separated by spaces. If user rejects the suggested car with phrases like 'anything else', 'show me something different', 'not that one', extract keywords from the previously shown car model or mentioned brands/models they don't want. Use the formal version of the brand name as it would appear in the DB.
       - action: action_search_cars
         next:
           - if: not slots.chosen_car_model
