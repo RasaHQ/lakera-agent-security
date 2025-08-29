@@ -71,7 +71,9 @@ class MockCarSearchAPI:
             car_type (str): The type of car (e.g., "compact SUV", "sedan", "EV").
             price_range (tuple): A tuple representing the min and max price (e.g., (25000, 30000)).
             new_or_used (str): Whether the car is "new", "used", or "any".
-            car_model (str, optional): Keywords to search for in car model (e.g., "civic", "honda pilot").
+            car_model (str, optional): Specific car model to search for. Use the official/canonical model name
+                (e.g., "Honda Civic", "Ford F-150", "Toyota Camry") rather than nicknames or abbreviations
+                like "civic", "f150", or "camry". This ensures the best keyword matching with inventory data.
             exclude_keywords (str, optional): Space-separated keywords to exclude from search (e.g., "honda toyota civic").
 
         Returns:
@@ -87,7 +89,9 @@ class MockCarSearchAPI:
         # Normalize exclusion keywords if provided
         exclusion_keywords = self._normalize_keywords(exclude_keywords) if exclude_keywords else set()
 
-        found_car = None
+        # Collect all matching cars with their keyword overlap scores
+        candidate_cars = []
+        
         for car in self.cars_data:
             # Normalize car type and new_or_used for robust matching
             car_type_lower = car['type'].lower()
@@ -100,21 +104,31 @@ class MockCarSearchAPI:
                           condition_match and
                           min_price <= car['price'] < max_price)
             
+            if not basic_match:
+                continue
+            
             # Check for exclusion keywords first
-            if exclusion_keywords:
-                car_model_keywords = self._normalize_keywords(car['model'])
-                if exclusion_keywords.intersection(car_model_keywords):
-                    continue  # Skip this car if it matches exclusion keywords
+            car_model_keywords = self._normalize_keywords(car['model'])
+            if exclusion_keywords and exclusion_keywords.intersection(car_model_keywords):
+                continue  # Skip this car if it matches exclusion keywords
             
-            # If model keywords provided, check for overlap
-            model_match = True
+            # Calculate keyword overlap score
+            overlap_score = 0
             if model_keywords and not ('any' in model_keywords):
-                car_model_keywords = self._normalize_keywords(car['model'])
-                model_match = bool(model_keywords.intersection(car_model_keywords))
+                overlap_score = len(model_keywords.intersection(car_model_keywords))
+                # Only include cars that have at least one keyword match
+                if overlap_score == 0:
+                    continue
             
-            if basic_match and model_match:
-                found_car = car
-                break # Return the first matching car for simplicity in this demo
+            # Add car to candidates with its overlap score
+            candidate_cars.append((car, overlap_score))
+        
+        # Find the car with the highest overlap score
+        found_car = None
+        if candidate_cars:
+            # Sort by overlap score (descending), then by price (ascending) as tiebreaker
+            candidate_cars.sort(key=lambda x: (-x[1], x[0]['price']))
+            found_car = candidate_cars[0][0]
 
         if found_car:
             # Extract only the relevant fields for the response
