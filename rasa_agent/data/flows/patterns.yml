@@ -16,3 +16,7 @@ flows:
     name: pattern session start
     steps:
       - action: utter_welcome_message
+  pattern_correction:
+    description: Instantly corrects the slot value without user confirmation or notification.
+    steps:
+      - action: action_correct_flow_slot
