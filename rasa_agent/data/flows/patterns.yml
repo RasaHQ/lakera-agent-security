@@ -13,6 +13,8 @@ flows:
     nlu_trigger:
       - intent: session_start
     description: Flow for starting the conversation
+    persisted_slots:
+      - customer_id
     name: pattern session start
     steps:
       - set_slots:
