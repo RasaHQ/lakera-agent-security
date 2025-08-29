@@ -169,9 +169,13 @@ class ActionCheckLoanQualification(Action):
             price = float(car_price)
             down_payment = float(down_payment_amount or 0) if down_payment_amount else None
 
-            # Get customer profile
+            # Get customer profile using customer_id from slot
+            customer_id = tracker.get_slot("customer_id")
+            if not customer_id:
+                return [SlotSet("loan_approved", False)]
+            
             customer_api = MockCustomerAPI()
-            customer_json = customer_api.get_customer_profile()
+            customer_json = customer_api.get_customer_profile(customer_id)
             customer = json.loads(customer_json)
 
             if "error" in customer:

@@ -26,6 +26,10 @@ slots:
     type: float
     mappings:
       - type: from_llm
+  customer_id:
+    type: text
+    mappings:
+      - type: controlled
 
 responses:
   utter_ask_down_payment_amount:
