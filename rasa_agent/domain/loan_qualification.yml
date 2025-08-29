@@ -36,13 +36,7 @@ slots:
 responses:
   utter_loan_approved:
     - text: "Great news! You're approved for financing on the ${car_price} vehicle. Your credit score is {credit_score} with a '{credit_tier}' credit tier."
-      metadata:
-        rephrase: False
     - condition: slots.suggested_down_payment
       text: "Great news! You're approved for financing on the ${car_price} vehicle. Your credit score is {credit_score} with a '{credit_tier}' credit tier. Consider a ${suggested_down_payment} down payment to get better terms."
-      metadata:
-        rephrase: False
   utter_loan_denied:
     - text: "I'm sorry, but you don't qualify for financing on this ${car_price} vehicle. {denial_reason}"
-      metadata:
-        rephrase: False

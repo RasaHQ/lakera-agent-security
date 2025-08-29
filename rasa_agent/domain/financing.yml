@@ -36,13 +36,7 @@ slots:
 responses:
   utter_ask_loan_term:
     - text: "would you like to repay in 36, 48, or 60 months?"
-      metadata:
-        rephrase: False
   utter_financing_initial:
     - text: "Alright, for a ${car_price} car on a {loan_term}-month term, your estimated **monthly payment** would be around **${loan_monthly_payment}**. You'd pay about **${loan_total_interest} in total interest**."
-      metadata:
-        rephrase: False
   utter_ask_confirm_start_loan_qualification:
     - text: "should I run a check to see if you qualify for this loan?"
-      metadata:
-        rephrase: False
