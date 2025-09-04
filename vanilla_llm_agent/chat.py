@@ -171,9 +171,42 @@ async def create_app():
         except FileNotFoundError:
             return web.Response(text="index.html not found", status=404)
     
+    # REST endpoint for chat messages
+    async def chat_message(request):
+        """Handle REST API chat messages"""
+        try:
+            data = await request.json()
+            message = data.get('message', '')
+            session_id = data.get('session_id', 'rest-session')
+            
+            if not message.strip():
+                return web.json_response({
+                    'error': 'Message cannot be empty'
+                }, status=400)
+            
+            # Process the message with our agent
+            response = await agent.process_message(session_id, message)
+            
+            return web.json_response({
+                'response': response,
+                'session_id': session_id,
+                'timestamp': datetime.now().isoformat()
+            })
+            
+        except json.JSONDecodeError:
+            return web.json_response({
+                'error': 'Invalid JSON in request body'
+            }, status=400)
+        except Exception as e:
+            print(f"Error in REST endpoint: {e}")
+            return web.json_response({
+                'error': 'Internal server error'
+            }, status=500)
+    
     # Add routes
     app.router.add_get('/', serve_index)
     app.router.add_get('/index.html', serve_index)
+    app.router.add_post('/chat', chat_message)
     
     # Attach Socket.IO
     sio.attach(app, socketio_path='/socket.io/')
@@ -216,6 +249,12 @@ async def main():
     print(f"🌐 Server running at: http://0.0.0.0:{port}")
     print(f"💬 Chat interface: http://0.0.0.0:{port}/")
     print(f"🔌 Socket.IO endpoint: http://0.0.0.0:{port}/socket.io/")
+    print(f"🌐 REST API endpoint: POST http://0.0.0.0:{port}/chat")
+    print()
+    print("REST API Usage:")
+    print('  curl -X POST http://localhost:' + str(port) + '/chat \\')
+    print("    -H 'Content-Type: application/json' \\")
+    print("    -d '{\"message\": \"I need help buying a car\", \"session_id\": \"my-session\"}'")
     print()
     
     # Only open browser in local development
