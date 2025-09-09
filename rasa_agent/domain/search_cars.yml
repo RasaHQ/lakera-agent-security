@@ -31,11 +31,6 @@ slots:
     type: float
     mappings:
       - type: from_llm
-  car_model:
-    type: text
-    mappings:
-      - type: from_llm
-    initial_value: "any"
   cars_under_consideration:
     type: any
     mappings:
@@ -45,7 +40,7 @@ slots:
     type: text
     mappings:
       - type: from_llm
-    initial_value: ""
+    initial_value: "default"
 
 responses:
   # Responses for 'collect' steps
@@ -75,3 +70,5 @@ responses:
     - text: "I'm sorry, I couldn't find a car matching your criteria: {car_search_error}"
   utter_more_car_details:
     - text: "You can find more details about this car on the dealership's website."
+  utter_ask_confirm_start_loan_offer:
+    - text: "Would you be interested to learn about financing options for this car?"

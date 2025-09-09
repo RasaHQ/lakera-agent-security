@@ -37,6 +37,7 @@ flows:
                 next: END
           - else:
               - action: utter_matching_cars
+              - action: utter_ask_confirm_start_loan_offer
                 next: END
   more_car_details:
     description: answer user's more detailed questions (like mileage, transmission, previous owners) about a specific car that was found at a dealership.

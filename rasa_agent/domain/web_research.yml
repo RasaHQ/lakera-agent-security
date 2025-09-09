@@ -21,6 +21,11 @@ slots:
     type: text
     mappings:
       - type: controlled
+  car_model:
+    type: text
+    mappings:
+      - type: from_llm
+    initial_value: "any"
 
 responses:
   utter_ask_research_query:
